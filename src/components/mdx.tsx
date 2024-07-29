@@ -5,6 +5,7 @@ import * as ReactTweet from "react-tweet";
 import * as ReactTwitchEmbed from "react-twitch-embed";
 import { H2, H3, H4 } from "@/components/headings";
 import { Pre } from "@/components/pre";
+import { Cta } from "@/components/cta";
 
 const YouTube = ({ url }: { url: string }) => (
   <div className="video-container">
@@ -55,6 +56,7 @@ export const MDX: React.FC<{ content: string }> = ({ content }) => {
           YouTube,
           TwitchClip,
           TwitchPlayerNonInteractive,
+          Cta: Cta,
         }}
       />
     </div>
