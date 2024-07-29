@@ -17,7 +17,7 @@ export const Pre: FC<
   };
 
   return (
-    <div className={`relative mt-7 ${className}`}>
+    <div className={`relative mt-7 ${className} mb-6`}>
       <div className="group w-full bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-500 dark:to-zinc-800 p-px rounded-xl overflow-hidden [.code-output_&]:rounded-b-none">
         <div className="bg-zinc-50 dark:bg-zinc-950 rounded-[11px] [.code-output_&]:rounded-b-none">
           <div className="flex justify-start group-hover:justify-between items-center pr-2 border-b border-zinc-200 dark:border-zinc-800">

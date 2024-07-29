@@ -33,13 +33,13 @@ export default function Blog() {
               key={index}
               className="bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-800 dark:to-zinc-900 rounded-2xl p-6 generic-hover"
             >
+              <div className="text-sm shrink-0 mt-1.5 text-muted-foreground pb-2">
+                {format(new Date(date), "MMM do, yyyy")}
+              </div>
               <div className="flex items-start justify-between">
                 <h3 className="font-display text-2xl text-black dark:text-white">
                   {title}
                 </h3>
-                <div className="text-sm shrink-0 mt-1.5">
-                  {format(new Date(date), "MMM do, yyyy")}
-                </div>
               </div>
               <div className="flex pl-2 items-center mt-4">
                 {authors.map(({ avatar, name }, index) => (
@@ -50,7 +50,7 @@ export default function Blog() {
                     <Image src={avatar} alt={name} fill />
                   </div>
                 ))}
-                <div className="text-sm ml-2">
+                <div className="text-sm ml-2 text-muted-foreground">
                   <span>By </span>
                   {authors.map(({ name }, index) => (
                     <>
@@ -60,7 +60,7 @@ export default function Blog() {
                       {index > 0 && index < authors.length - 1 && (
                         <span>, </span>
                       )}
-                      <span key={index} className="text-black dark:text-white">
+                      <span key={index} className="">
                         {name}{" "}
                       </span>
                     </>

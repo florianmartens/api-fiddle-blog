@@ -37,20 +37,14 @@ export const TableOfContents: React.FC<{
   }, [elements]);
 
   return (
-    <aside className="toc flex-none sticky top-32 sm:top-40 mb-16 w-52 overflow-y-auto hidden xl:block">
-      <div className="py-4">
-        <h2>Authors</h2>
-        {post.authors.map((author, index) => (
-          <Author key={index} {...author} />
-        ))}
-      </div>
+    <aside className="toc flex-none sticky top-32 sm:top-40 mb-4 pl-4 w-52 overflow-y-auto hidden xl:block">
       <div>
         {elements.length > 1 && (
           <h2 className="text-black dark:text-white uppercase text-sm font-semibold h-8 flex items-end">
             On this page
           </h2>
         )}
-        <ul className="relative grow overflow-hidden py-1 text-sm">
+        <ul className="relative grow overflow-hidden py-1 text-sm pb-4">
           {elements
             .slice(1, elements.length)
             .map(({ level, title, slug }, index) => {
@@ -62,9 +56,9 @@ export const TableOfContents: React.FC<{
                 >
                   <Link
                     href={`#${slug}`}
-                    className={`flex items-center pb-1 break-words hover:text-black dark:hover:text-white leading-snug text-left ${
+                    className={`flex items-center pb-1 break-words text-muted-foreground hover:text-black dark:hover:text-white leading-snug text-left ${
                       slug === activeHeading
-                        ? "text-black font-normal dark:text-yellow-400 dark:font-light"
+                        ? "text-black font-normal dark:text-[#c9f702] dark:font-light"
                         : ""
                     }`}
                     dangerouslySetInnerHTML={{
@@ -78,26 +72,15 @@ export const TableOfContents: React.FC<{
             })}
         </ul>
       </div>
-      {elements.length > 1 && (
-        <>
-          <Divider />
-          <div className="text-sm py-9 space-y-3">
-            {pageFilePath && (
-              <Link
-                href={`https://github.com/Effect-TS/website/blob/website-redesign/content/${pageFilePath}`}
-                className="flex items-start gap-1 hover:text-black dark:hover:text-white"
-              >
-                <span>Edit on GitHub</span>
-                <ArrowUp
-                  size={16}
-                  name="arrow-up-right-light"
-                  className="h-3"
-                />
-              </Link>
-            )}
-          </div>
-        </>
-      )}
+      <Divider />
+      <div className="py-4">
+        <h2 className="text-black dark:text-white uppercase text-sm font-semibold h-8 flex items-end">
+          Authors
+        </h2>
+        {post.authors.map((author, index) => (
+          <Author key={index} {...author} />
+        ))}
+      </div>
     </aside>
   );
 };

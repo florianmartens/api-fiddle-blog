@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-import { Twitter } from "lucide-react";
 
 export const Author: FC<{
   name: string;
@@ -10,12 +9,12 @@ export const Author: FC<{
   twitter?: string;
 }> = ({ name, avatar, twitter }) => {
   return (
-    <div className="flex gap-2 items-center mt-3 rounded-md bg-gray-600/50 py-4 px-3">
+    <div className="flex gap-2 items-center mt-3 rounded-md py-4 px-3">
       <div className="relative w-10 h-10 rounded-full overflow-hidden border border-black dark:border-white shadow-lg">
         <Image src={avatar} alt={name} fill />
       </div>
       <div className="leading-snug text-sm">
-        <div className="text-black font-normal dark:font-light dark:text-white">
+        <div className="text-black font-normal dark:font-light dark:text-white pb-2">
           {name}
         </div>
         {twitter && (

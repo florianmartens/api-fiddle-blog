@@ -9,7 +9,7 @@ export const H2: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
       <a className="block invisible relative -top-28" id={id} />
       <h2
         onClick={() => (window.location.hash = `#${id}`)}
-        className="group cursor-pointer"
+        className="group cursor-pointer text-2xl pb-3 pt-6 font-semibold"
       >
         <span className="absolute -left-6 hidden font-normal text-zinc-400 lg:group-hover:inline">
           #
@@ -29,7 +29,7 @@ export const H3: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
       <a className="block invisible relative -top-28" id={id} />
       <h3
         onClick={() => (window.location.hash = `#${id}`)}
-        className="group cursor-pointer"
+        className="group cursor-pointer text-xl font-semibold pt-4 pb-2"
       >
         <span className="absolute -left-6 hidden font-normal text-zinc-400 lg:group-hover:inline">
           #
