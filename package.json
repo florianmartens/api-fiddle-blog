@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "next telemetry disable",
     "build": "next build && pnpm run build:content && pnpm run build:sitemap && pnpm run build:rss",
     "start": "next start",
     "lint": "next lint",

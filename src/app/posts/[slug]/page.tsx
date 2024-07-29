@@ -56,12 +56,12 @@ export default function Page({
               <ArrowLeft size={16} /> Back
             </div>
           </Link>
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-black dark:text-white">
-            {post.title}
-          </h2>
           <div className="text-sm h-4 mt-1.5 mb-6">
             {format(new Date(post.date), "MMM do, yyyy")}
           </div>
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-black dark:text-white pb-8">
+            {post.title}
+          </h2>
           <MDX content={post.body.code} />
         </main>
         <TableOfContents elements={post.headings} post={post} />

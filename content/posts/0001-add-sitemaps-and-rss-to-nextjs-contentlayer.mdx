@@ -46,6 +46,44 @@ on twitter if a blog post about this would be interesting to you)
 
 ## Sitemaps
 
+There are two approaches to adding sitemaps to Nextjs + ContentLayer. 
+
+### Approch 1
+Next has a built in feature for sitemaps that you can find [here](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap).
+
+Requesting the sitemap through next's built in feature, produced an error due to incompatible `opentelemetry` versions. To get it to work [disable next's telemetry](https://nextjs.org/telemetry#how-do-i-opt-out) reporting and add this script to `/src/app/sitemap.ts`.
+
+```ts
+import { allBlogPosts } from "contentlayer/generated";
+import { MetadataRoute } from "next";
+
+export function getBaseUrl() {
+  return process.env.NODE_ENV === "production"
+    ? "<YOUR_PRODUCTION_URL>"
+    : "http://localhost:3000";
+}
+
+const basePath = getBaseUrl();
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    {
+      url: basePath + "/",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
+    }, //@ts-ignore
+    ...allBlogPosts.map(({ urlPath, date }) => ({
+      url: basePath + urlPath,
+      lastModified: new Date(date),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    })),
+  ];
+}
+```
+
+### Approch 2 (manually)
 Add the following script to `/scripts/sitemap.mjs`. 
 
 ```js
