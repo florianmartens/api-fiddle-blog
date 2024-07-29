@@ -46,7 +46,11 @@ export const Pre: FC<
           <pre
             ref={container}
             className="shiki twoslash rounded-none"
-            style={{ margin: 0, padding: 0, backgroundColor: "transparent" }}
+            style={{
+              margin: 0,
+              padding: 0,
+              backgroundColor: "transparent",
+            }}
           >
             {children}
           </pre>

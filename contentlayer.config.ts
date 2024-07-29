@@ -43,7 +43,6 @@ export default makeSource({
         (remarkShikiTwoslash as any).default,
         { themes: ["github-dark", "github-light"] },
       ],
-      // [conditionalShikiTwoslash, { theme: "github-dark" }],
       remarkGfm,
       remarkMdxCodeMeta as any,
     ],
