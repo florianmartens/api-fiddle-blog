@@ -40,18 +40,18 @@ Despite this uncertainty, Contentlayer remains a powerful tool for content manag
 
 ### Adding Sitemaps and RSS Feeds to Your Next.js App
 
-In this tutorital we will add sitemaps and RSS feeds to your Next.js application using custom node scripts. This approach is very flexible
-and great for small to mid sized blogs. However, once you have to manage thousands of pages you probably want to automate even further (shoot me a DM 
-on twitter if a blog post about this would be interesting to you)
+In this tutorial we will add sitemaps and RSS feeds to your Next.js application using custom node scripts. This approach in this post is flexible
+and will work for small to medium-sized blogs. However, if you have to manage thousands of pages you probably want to automate even further (send me a DM 
+on Twitter if this interests you).
 
 ## Sitemaps
 
-There are two approaches to adding sitemaps to Nextjs + Contentlayer. 
+There are two approaches to adding sitemaps to Next.js + Contentlayer. 
 
 ### Approch 1
 Next has a built in feature for sitemaps that you can find [here](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap).
 
-Requesting the sitemap through next's built in feature, produced an error due to incompatible `opentelemetry` versions. To get it to work [disable next's telemetry](https://nextjs.org/telemetry#how-do-i-opt-out) reporting and add this script to `/src/app/sitemap.ts`.
+Requesting the sitemap through Next's built-in feature, produced an error due to incompatible `opentelemetry` versions. To get it to work [disable Next's telemetry](https://nextjs.org/telemetry#how-do-i-opt-out) reporting and add this script to `/src/app/sitemap.ts`.
 
 ```ts
 import { allBlogPosts } from "contentlayer/generated";
@@ -83,7 +83,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 ```
 
-### Approch 2 (manually)
+### Approch 2
 Add the following script to `/scripts/sitemap.mjs`. 
 
 ```js
@@ -141,7 +141,7 @@ try {
 }
 ```
 
-Next add the following script command to `package.json`.
+Next, add the following script command to `package.json`.
 
 ```json
 {
@@ -151,10 +151,8 @@ Next add the following script command to `package.json`.
 }
 ```
 
-In this script we're using the build output of ContentLayer to retrieve all our blog posts. We then create a list of sitemap entries
-from them add this list to our index page (we're adding the index page manually).
-
-We're using best practices for sitemaps by using datetime fields and adjusted priority values.
+In this script we're using the build output of Contentlayer to retrieve all our blog posts. We then create a list of sitemap entries from out blog posts 
+(we're adding the index page manually).
 
 Note: The `node:` import prefix is part of Node.js' module resolution algorithm. It ensures that we're using the built-in Node.js fs module, 
 avoiding potential conflicts with third-party modules that might have the same name. This is a good practice for clarity and consistency.
@@ -205,10 +203,11 @@ Next add the following script command to `package.json`.
 }
 ```
 
-This script is similar to the script above in that we're using the output of ContentLayer to produce our RSS definition. Instead 
-of creating the XML manually we're relying on the library `rss`.
+This script is similar to the script for sitemaps from approach 2. We're using the output of Contentlayer to produce our RSS definition.
 
-## Add to your Build Sitemap
+Instead of creating the XML manually we're relying on the library `rss`.
+
+## Add to Your Build
 
 Finally, add the two new scripts to your build step:
 
