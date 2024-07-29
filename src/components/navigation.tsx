@@ -53,7 +53,7 @@ export const Navigation: React.FC<{
                 : "max-w-screen-xl"
           } mx-auto px-4 sm:px-8 lg:px-16 h-16 sm:h-24 flex justify-between items-center`}
         >
-          <Link href="/" className="z-50">
+          <Link href="https://api-fiddle.com" className="z-50">
             <Logo width={100} height={50} />
           </Link>
           <div className="hidden md:flex items-center gap-8">
