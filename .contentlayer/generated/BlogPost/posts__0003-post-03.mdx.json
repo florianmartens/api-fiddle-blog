@@ -1,0 +1,37 @@
+{
+  "title": "My third Post",
+  "excerpt": "This Week in Effect is a weekly blog post that makes a summary of what happened in the Effect Community and Ecosystem to help you keep track of all the news, features and changes!",
+  "date": "2021-12-24T00:00:00.000Z",
+  "authors": [
+    {
+      "name": "Florian Martens",
+      "description": "Founder",
+      "avatar": "/authors/florian.jpg",
+      "twitter": "https://twitter.com/florianmartens9",
+      "type": "Author",
+      "_raw": {}
+    }
+  ],
+  "body": {
+    "raw": "\nUllamco et nostrud magna commodo nostrud ...\n",
+    "code": "var Component=(()=>{var d=Object.create;var a=Object.defineProperty;var f=Object.getOwnPropertyDescriptor;var h=Object.getOwnPropertyNames;var l=Object.getPrototypeOf,x=Object.prototype.hasOwnProperty;var y=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),w=(t,e)=>{for(var n in e)a(t,n,{get:e[n],enumerable:!0})},c=(t,e,n,s)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let o of h(e))!x.call(t,o)&&o!==n&&a(t,o,{get:()=>e[o],enumerable:!(s=f(e,o))||s.enumerable});return t};var k=(t,e,n)=>(n=t!=null?d(l(t)):{},c(e||!t||!t.__esModule?a(n,\"default\",{value:t,enumerable:!0}):n,t)),M=t=>c(a({},\"__esModule\",{value:!0}),t);var m=y((C,i)=>{i.exports=_jsx_runtime});var g={};w(g,{default:()=>p,frontmatter:()=>_});var r=k(m()),_={title:\"My third Post\",date:\"2021-12-24\",excerpt:\"This Week in Effect is a weekly blog post that makes a summary of what happened in the Effect Community and Ecosystem to help you keep track of all the news, features and changes!\",authors:[{name:\"Florian Martens\",description:\"Founder\",avatar:\"/authors/florian.jpg\",twitter:\"https://twitter.com/florianmartens9\"}]};function u(t){let e={p:\"p\",...t.components};return(0,r.jsx)(e.p,{children:\"Ullamco et nostrud magna commodo nostrud ...\"})}function p(t={}){let{wrapper:e}=t.components||{};return e?(0,r.jsx)(e,{...t,children:(0,r.jsx)(u,{...t})}):u(t)}return M(g);})();\n;return Component;"
+  },
+  "_id": "posts/0003-post-03.mdx",
+  "_raw": {
+    "sourceFilePath": "posts/0003-post-03.mdx",
+    "sourceFileName": "0003-post-03.mdx",
+    "sourceFileDir": "posts",
+    "contentType": "mdx",
+    "flattenedPath": "posts/0003-post-03"
+  },
+  "type": "BlogPost",
+  "url": "/posts/0003-post-03",
+  "urlPath": "/posts/post-03",
+  "headings": [
+    {
+      "level": 1,
+      "title": "My third Post"
+    }
+  ],
+  "sections": []
+}

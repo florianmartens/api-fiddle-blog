@@ -1,0 +1,57 @@
+[
+  {
+    "title": "API Fiddle",
+    "excerpt": "Test post for API Fiddle",
+    "date": "2021-12-24T00:00:00.000Z",
+    "authors": [
+      {
+        "name": "Florian Martens",
+        "description": "Founder",
+        "avatar": "/authors/florian.jpg",
+        "twitter": "https://twitter.com/florianmartens9",
+        "type": "Author",
+        "_raw": {}
+      }
+    ],
+    "body": {
+      "raw": "\n### Heading\n\nLorem ipsum\n\n### Heading 2\n\nLorem ipsum\n",
+      "code": "var Component=(()=>{var p=Object.create;var i=Object.defineProperty;var l=Object.getOwnPropertyDescriptor;var u=Object.getOwnPropertyNames;var x=Object.getPrototypeOf,f=Object.prototype.hasOwnProperty;var g=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports),_=(e,t)=>{for(var r in t)i(e,r,{get:t[r],enumerable:!0})},s=(e,t,r,a)=>{if(t&&typeof t==\"object\"||typeof t==\"function\")for(let o of u(t))!f.call(e,o)&&o!==r&&i(e,o,{get:()=>t[o],enumerable:!(a=l(t,o))||a.enumerable});return e};var j=(e,t,r)=>(r=e!=null?p(x(e)):{},s(t||!e||!e.__esModule?i(r,\"default\",{value:e,enumerable:!0}):r,e)),F=e=>s(i({},\"__esModule\",{value:!0}),e);var c=g((A,d)=>{d.exports=_jsx_runtime});var w={};_(w,{default:()=>h,frontmatter:()=>M});var n=j(c()),M={title:\"API Fiddle\",date:\"2021-12-24\",excerpt:\"Test post for API Fiddle\",authors:[{name:\"Florian Martens\",description:\"Founder\",avatar:\"/authors/florian.jpg\",twitter:\"https://twitter.com/florianmartens9\"}]};function m(e){let t={h3:\"h3\",p:\"p\",...e.components};return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(t.h3,{id:\"heading\",children:\"Heading\"}),`\n`,(0,n.jsx)(t.p,{children:\"Lorem ipsum\"}),`\n`,(0,n.jsx)(t.h3,{id:\"heading-2\",children:\"Heading 2\"}),`\n`,(0,n.jsx)(t.p,{children:\"Lorem ipsum\"})]})}function h(e={}){let{wrapper:t}=e.components||{};return t?(0,n.jsx)(t,{...e,children:(0,n.jsx)(m,{...e})}):m(e)}return F(w);})();\n;return Component;"
+    },
+    "_id": "posts/0001-post-01.mdx",
+    "_raw": {
+      "sourceFilePath": "posts/0001-post-01.mdx",
+      "sourceFileName": "0001-post-01.mdx",
+      "sourceFileDir": "posts",
+      "contentType": "mdx",
+      "flattenedPath": "posts/0001-post-01"
+    },
+    "type": "BlogPost",
+    "url": "/posts/0001-post-01",
+    "urlPath": "/posts/post-01",
+    "headings": [
+      {
+        "level": 1,
+        "title": "API Fiddle"
+      },
+      {
+        "level": 3,
+        "title": "Heading",
+        "slug": "heading"
+      },
+      {
+        "level": 3,
+        "title": "Heading 2",
+        "slug": "heading-2"
+      }
+    ],
+    "sections": [
+      {
+        "heading": {
+          "level": 3,
+          "title": "Heading"
+        },
+        "content": "Lorem ipsum "
+      }
+    ]
+  }
+]
