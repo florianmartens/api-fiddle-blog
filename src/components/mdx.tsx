@@ -3,9 +3,8 @@
 import { useMDXComponent } from "next-contentlayer2/hooks";
 import * as ReactTweet from "react-tweet";
 import * as ReactTwitchEmbed from "react-twitch-embed";
-import { H2, H3, H4 } from "@/components/headings";
+import { MdxH2, MdxH3, MdxH4 } from "@/components/mdx-headings";
 import { Pre } from "@/components/pre";
-import { Cta } from "@/components/cta";
 
 const YouTube = ({ url }: { url: string }) => (
   <div className="video-container">
@@ -48,15 +47,14 @@ export const MDX: React.FC<{ content: string }> = ({ content }) => {
     <div className="relative prose max-w-3xl prose-headings:font-display dark:prose-invert prose-headings:text-black dark:prose-headings:text-white prose-tr:border-zinc-200 dark:prose-tr:border-white/20 prose-thead:text-base prose-thead:font-sans prose-thead:border-zinc-200 dark:prose-thead:border-white/20 text-zinc-700 dark:text-zinc-300 prose-li:my-1">
       <Content
         components={{
-          h2: H2,
-          h3: H3,
-          h4: H4,
+          h2: MdxH2,
+          h3: MdxH3,
+          h4: MdxH4,
           pre: Pre,
           Tweet,
           YouTube,
           TwitchClip,
           TwitchPlayerNonInteractive,
-          Cta: Cta,
         }}
       />
     </div>

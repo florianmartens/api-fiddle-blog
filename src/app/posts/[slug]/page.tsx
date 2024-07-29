@@ -1,6 +1,8 @@
+import { Cta } from "@/components/cta";
 import { MDX } from "@/components/mdx";
 import { Navigation } from "@/components/navigation";
 import { TableOfContents } from "@/components/table-of-contents";
+import { Button } from "@/components/ui/button";
 import { urlFromFilePath } from "content/utils/url-from-file-path";
 import { allBlogPosts } from "contentlayer/generated";
 import { format } from "date-fns";
@@ -37,32 +39,20 @@ export default function Page({
     <>
       <Navigation />
       <div className="blog-container relative w-full max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16 flex items-start pt-32 sm:pt-40 min-h-screen">
-        <main className="md:px-3 pb-24 -mt-2 grow overflow-hidden">
-          <div className="flex gap-2 items-center -mt-5 mb-1 h-4 text-sm">
-            <Link
-              href="/blog"
-              className="hover:text-black dark:hover:text-white"
-            >
-              Blog
-            </Link>
-            <ChevronRight
-              size={16}
-              name={"chevron-right"}
-              className="h-2.5 text-zinc-400 dark:text-zinc-600"
-            />
-          </div>
+        <main className="md:px-3 pb-24 -mt-2 grow overflow-visible">
           <Link href="/">
-            <div className="dark:text-white flex items-center pb-3">
-              <ArrowLeft size={16} /> Back
-            </div>
+            <Button variant="outline" className="mb-3">
+              <ArrowLeft size={16} className="mr-1" /> Back
+            </Button>
           </Link>
-          <div className="text-sm h-4 mt-1.5 mb-6">
+          <div className="text-sm h-4 mt-1.5 mb-6 text-muted-foreground">
             {format(new Date(post.date), "MMM do, yyyy")}
           </div>
           <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-black dark:text-white pb-8">
             {post.title}
           </h2>
           <MDX content={post.body.code} />
+          <Cta />
         </main>
         <TableOfContents elements={post.headings} post={post} />
       </div>

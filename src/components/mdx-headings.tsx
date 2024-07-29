@@ -1,6 +1,6 @@
 "use client";
 
-export const H2: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
+export const MdxH2: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   id,
   children,
 }) => {
@@ -20,7 +20,7 @@ export const H2: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   );
 };
 
-export const H3: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
+export const MdxH3: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   id,
   children,
 }) => {
@@ -40,7 +40,7 @@ export const H3: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   );
 };
 
-export const H4: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
+export const MdxH4: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   id,
   children,
 }) => {
