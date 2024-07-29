@@ -3,7 +3,7 @@ import prettier from "prettier";
 import { allBlogPosts } from "../.contentlayer/generated/index.mjs";
 
 export function getBaseUrl() {
-  return process.env === "production"
+  return process.env.NODE_ENV === "production"
     ? "https://blog.api-fiddle.com"
     : "http://localhost:3000";
 }
