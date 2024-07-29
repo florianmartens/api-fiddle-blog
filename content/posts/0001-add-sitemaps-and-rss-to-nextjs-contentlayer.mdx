@@ -1,0 +1,183 @@
+---
+title: Add Sitemaps and RSS Feeds to Your Next.js Application with Contentlayer
+date: 2024-07-29
+excerpt: Improve the SEO of your Nextjs blog or docs page and allow your users to subscribe to your blog via RSS.
+authors:
+  - name: Florian Martens
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+---
+
+In the world of web development, ensuring your content is easily discoverable and accessible is crucial.
+Two powerful tools that can help achieve this are sitemaps and RSS feeds. In this blog post, we'll explore
+how to add these features to a Next.js application built with Contentlayer.
+
+## What is a Sitemap?
+
+A sitemap is an XML file that lists all the important pages on your website. It helps search engines understand
+your site structure and improve your SEO. Sitemaps can include information about each page, such as when it was
+last updated, how often it changes, and its relative importance on your site.
+
+You you're targeting Google with your SEO, you can wait for google to index your website or submit the path to
+your sitemap via the [google search console](https://search.google.com/search-console).
+
+## What is RSS?
+
+RSS (Really Simple Syndication) is a web feed format that allows users and applications to access updates to
+your website in a computer-readable format. It enables your readers to stay informed about new
+content without having to visit your site regularly using an RSS reader.
+
+## A Few Words About Contentlayer
+
+[Contentlayer](https://contentlayer.dev/) is a good project for building blogs and documentation sites with Next.js.
+It transforms your content into type-safe JSON data, making it easy to work with your content in your React components.
+
+However, it's important to note that as of the time of writing, Contentlayer is unmaintained, and its future is uncertain.
+
+The good news is that there are [ongoing discussions](https://github.com/contentlayerdev/contentlayer/issues/429) about restarting development on the project.
+Despite this uncertainty, Contentlayer remains a powerful tool for content management in Next.js applications.
+
+### Adding Sitemaps and RSS Feeds to Your Next.js App
+
+In this tutorital we will add sitemaps and RSS feeds to your Next.js application using custom node scripts. This approach is very flexible
+and great for small to mid sized blogs. However, once you have to manage thousands of pages you probably want to automate even further (shoot me a DM 
+on twitter if a blog post about this would be interesting to you)
+
+## Sitemaps
+
+Add the following script to `/scripts/sitemap.mjs`. 
+
+```js
+import { writeFileSync } from "node:fs";
+import prettier from "prettier";
+import { allBlogPosts } from "../.contentlayer/generated/index.mjs";
+
+export function getBaseUrl() {
+  return process.env.NODE_ENV === "production"
+    ? "<PRODUCTION_URL>"
+    : "http://localhost:3000";
+}
+
+export function formatDate(date) {
+  return date.toISOString().split(".")[0] + "+00:00";
+}
+
+try {
+  const urlPaths = allBlogPosts
+    .map(
+      (blogPost) => `
+        <url>
+            <loc>${getBaseUrl()}${blogPost.urlPath}</loc>
+            <lastmod>${formatDate(new Date(blogPost.date))}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.8</priority>
+        </url>
+      `
+    )
+    .join("");
+
+  const sitemap = `
+    <?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>${getBaseUrl()}</loc>
+        <lastmod>${formatDate(new Date())}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+      </url>
+      ${urlPaths}
+    </urlset>
+  `;
+
+  const prettierConfig = await prettier.resolveConfig("./prettierrc");
+  const formatted = await prettier.format(sitemap, {
+    ...prettierConfig,
+    parser: "html",
+  });
+
+  writeFileSync("public/sitemap.xml", formatted);
+  console.log("Success: sitemap created successfully");
+} catch (err) {
+  console.error("Error: Unable to create sitemap");
+}
+```
+
+Next add the following script command to `package.json`.
+
+```json
+{
+  "scripts": {
+    "build:sitemap": "node scripts/sitemap.mjs",
+  }
+}
+```
+
+In this script we're using the build output of ContentLayer to retrieve all our blog posts. We then create a list of sitemap entries
+from them add this list to our index page (we're adding the index page manually).
+
+We're using best practices for sitemaps by using datetime fields and adjusted priority values.
+
+Note: The `node:` import prefix is part of Node.js' module resolution algorithm. It ensures that we're using the built-in Node.js fs module, 
+avoiding potential conflicts with third-party modules that might have the same name. This is a good practice for clarity and consistency.
+
+## RSS
+
+To add RSS add the following script to `/scripts/rss.mjs`.
+
+```js
+import { writeFileSync } from "fs";
+import RSS from "rss";
+import { allBlogPosts } from "../.contentlayer/generated/index.mjs";
+import { getBaseUrl } from "./sitemap.mjs";
+
+const baseUrl = getBaseUrl();
+
+const feed = new RSS({
+  title: "<NAME OF YOUR BLOG>",
+  feed_url: `${baseUrl}/rss.xml`,
+  site_url: baseUrl,
+});
+
+try {
+  allBlogPosts
+    .map((blogPost) => ({
+      title: blogPost.title,
+      description: blogPost.excerpt,
+      url: `${baseUrl}${blogPost.urlPath}`,
+      date: new Date(blogPost.date),
+    }))
+    .forEach((item) => {
+      feed.item(item);
+    });
+  writeFileSync("./public/rss.xml", feed.xml({ indent: true }));
+  console.log("Success: RSS feed created successfully");
+} catch (err) {
+  console.error("Error: Unable to create RSS feed");
+}
+```
+
+Next add the following script command to `package.json`.
+
+```json
+{
+  "scripts": {
+    "build:rss": "node scripts/rss.mjs"
+  }
+}
+```
+
+This script is similar to the script above in that we're using the output of ContentLayer to produce our RSS definition. Instead 
+of creating the XML manually we're relying on the library `rss`.
+
+## Add to your Build Sitemap
+
+Finally, add the two new scripts to your build step:
+
+```json
+{
+  "scripts": {
+    "build": "next build && npm run build:sitemap && npm run build:rss"
+  }
+}
+```
