@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 export const runtime = "edge";
-export const alt = "API Fiddle";
+export const alt = "API-Fiddle";
 export const size = {
   width: 1200,
   height: 630,
@@ -52,7 +52,7 @@ export default async function Image({
       >
         <img
           src="https://imagedelivery.net/3B3AWuP94-S3Ro5eEac6JA/d9398930-3455-425c-3112-596e5a20b400/public"
-          alt="API Fiddle Logotype"
+          alt="API-Fiddle Logotype"
           height="64"
         />
         <div style={{ color: "white", fontSize: 64, fontFamily: "Inter" }}>

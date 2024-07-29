@@ -1,4 +1,3 @@
-import { Author } from "@/components/author";
 import { MDX } from "@/components/mdx";
 import { Navigation } from "@/components/navigation";
 import { TableOfContents } from "@/components/table-of-contents";
