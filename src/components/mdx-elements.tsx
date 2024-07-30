@@ -59,3 +59,15 @@ export const MdxH4: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
     </>
   );
 };
+
+export const MdxA: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return (
+    <a className="text-brand cursor-pointer visited:text-brand/60 hover:text-brand/80 hover:underline">
+      {children}
+    </a>
+  );
+};
+
+export const MdxP: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return <p className="pb-4">{children}</p>;
+};

@@ -1,0 +1,95 @@
+---
+isPublished: false
+title: "Make Immutability Your Default In TypeScript: A Practical Guide to Immutability"
+date: 2024-07-29
+excerpt: Many bugs we introduce to TypeScript codebases have to do with mutability. Allthough hard to prevent fully, we can do better.
+keywords:
+  - TypeScript
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+---
+
+With this article, I want to hit you where it hurts most. I want you to change the way you write Typescript code everyday and embrace a practical approach to immutability.
+
+This article focuses on a practical approach to immutability for everyday code writing. If you are looking for true immutability check out
+immutable datastructures from libraries like [immerjs](https://immerjs.github.io/immer/) and [immutable.js](https://immutable-js.com/).
+
+## The Goal
+
+These are the changes that I want you to consider when writing TypeScript code from now on:
+
+### Always add the readonly modifyer by default.
+
+Communicate to your consumers which values are allowed to be mutated
+
+```ts
+type Foo = Readonly<{
+    foo: string;
+    bar: number;
+}>;
+
+// or
+
+type Foo = {
+    readonly foo: string;
+    readonly bar: number;
+};
+```
+
+### Functions communicate if they will mutate their arguments
+
+Every function argument should have the `readonly` modifier by default or accept arguments with the `Readonly<T>`
+(extra points for the [DeepReadonly](https://github.com/sindresorhus/type-fest/blob/main/source/readonly-deep.d.ts)) utility type.
+
+
+```ts
+function makeFoo(foo: readonly string[]) {
+    return foo;
+}
+
+// or 
+function makeFoo(foo: readonly string[]) {
+    return foo;
+}
+```
+
+For classes
+
+```ts
+class Foo {
+    readonly bar = 1;
+    readonly baz: string;
+    constructor() {
+        this.baz = "hello";
+    }
+}
+```
+
+While opinions on mutability can vary the gist is this: Mutability is bad.
+
+This is true for code that runs in the browser where references can be widely shared due to the event-based nature of websites. Additionally, this is true for server environments
+where we work with middleware and deep call stacks. Without immutability, one mistake can have unforseen consequences. A widely used reference (think state, or the `request` object)
+could be changed, altering the result of dozens of function calls.
+
+
+## Why Readonly Should Be the default
+
+I want to start by saying that this is not only my opinion but that I'm in fantasic company. Two examples are this [open issue](https://github.com/microsoft/TypeScript/issues/42357)
+discussing a compiler flag for makeing immutability the default and this tweet by popular TypeScript influencer Matt Procock's.
+
+<Tweet id="1806956879970484708" />
+
+Having values that are treated as immutable by default adds security to your codebase and will prevent common errors. However, immutable code can cause frustration 
+for TypeScript beginners who will find it difficult to work with your codebase.
+
+Before we dive into code, there is one question we need to address: If mutablility is so great, why is it not already the default?
+
+## Making TypeScript Types Immutable Is Like Putting Lipstick on a Pig
+
+By default JavaScript (the compile target of TypeScript) is mutable. Whenever you work with JavaScript, true immutability does not exist.
+
+TypeScript is merely a superset of JavaScript and needs deal with the realities of JavaScript. TypeScript was not designed to play code police (that's your job).
+For this reason alone it is questionable if we will see a version of TypeScript with the default set to immutability.

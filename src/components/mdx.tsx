@@ -3,7 +3,7 @@
 import { useMDXComponent } from "next-contentlayer2/hooks";
 import * as ReactTweet from "react-tweet";
 import * as ReactTwitchEmbed from "react-twitch-embed";
-import { MdxH2, MdxH3, MdxH4 } from "@/components/mdx-headings";
+import { MdxA, MdxH2, MdxH3, MdxH4, MdxP } from "@/components/mdx-elements";
 import { Pre } from "@/components/pre";
 
 const YouTube = ({ url }: { url: string }) => (
@@ -51,6 +51,8 @@ export const MDX: React.FC<{ content: string }> = ({ content }) => {
           h3: MdxH3,
           h4: MdxH4,
           pre: Pre,
+          a: MdxA,
+          p: MdxP,
           Tweet,
           YouTube,
           TwitchClip,

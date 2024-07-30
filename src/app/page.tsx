@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 };
 
 export default function Blog() {
-  const posts = Array.from(allBlogPosts).reverse();
+  const posts = Array.from(allBlogPosts)
+    .filter((blogPost) =>
+      process.env.NODE_ENV === "production" ? blogPost.isPublished : true
+    )
+    .reverse();
   return (
     <>
       <Navigation />

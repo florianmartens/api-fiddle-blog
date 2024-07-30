@@ -38,6 +38,11 @@ export const BlogPost = defineDocumentType(() => ({
   filePathPattern: `posts/**/*.mdx`,
   contentType: "mdx",
   fields: {
+    isPublished: {
+      type: "boolean",
+      description: "Determines if the post is visible on the website or not",
+      required: true,
+    },
     title: {
       type: "string",
       description: "The title of the post",
@@ -58,6 +63,12 @@ export const BlogPost = defineDocumentType(() => ({
       description: "List of slugs for related posts.",
       of: { type: "string" },
       required: false,
+    },
+    keywords: {
+      type: "list",
+      description: "List of keywords",
+      of: { type: "string" },
+      required: true,
     },
     authors: {
       type: "list",

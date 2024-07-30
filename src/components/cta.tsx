@@ -1,5 +1,5 @@
 "use client";
-import { MdxH2 } from "@/components/mdx-headings";
+import { MdxH2 } from "@/components/mdx-elements";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
