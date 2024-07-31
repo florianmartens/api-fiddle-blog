@@ -3,6 +3,7 @@ import { allBlogPosts } from "contentlayer/generated";
 import { format } from "date-fns";
 import { ArrowRight } from "lucide-react";
 import { Metadata } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,6 +25,14 @@ export default function Blog() {
     .reverse();
   return (
     <>
+      <Head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Api-Fiddle RSS Feed"
+          href="https://blog.api-fiddle.com/rss.xml"
+        />
+      </Head>
       <Navigation />
       <main className="docs-container relative w-full max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16 pb-24 pt-32 sm:pt-40 min-h-screen">
         <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-black dark:text-white">
