@@ -28,7 +28,7 @@ try {
     .forEach((item) => {
       feed.item(item);
     });
-  writeFileSync("./public/rss.xml", feed.xml({ indent: true }));
+  writeFileSync("./public/feed.xml", feed.xml({ indent: true }));
   console.log("Success: RSS feed created successfully");
 } catch (err) {
   console.error("Error: Unable to create RSS feed");

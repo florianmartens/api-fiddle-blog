@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     types: {
       "application/rss+xml": [
         {
-          url: "https://blog.api-fiddle.com/rss.xml",
+          url: "https://blog.api-fiddle.com/feed.xml",
           title: "Api-Fiddle RSS feed",
         },
       ],
