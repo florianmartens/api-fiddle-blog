@@ -1,7 +1,12 @@
 import { writeFileSync } from "fs";
 import RSS from "rss";
 import { allBlogPosts } from "../.contentlayer/generated/index.mjs";
-import { getBaseUrl } from "./sitemap.mjs";
+
+export function getBaseUrl() {
+  return process.env.NODE_ENV === "production"
+    ? "https://blog.api-fiddle.com"
+    : "http://localhost:3000";
+}
 
 const baseUrl = getBaseUrl();
 
@@ -13,6 +18,7 @@ const feed = new RSS({
 
 try {
   allBlogPosts
+    .filter((p) => p.isPublished)
     .map((blogPost) => ({
       title: blogPost.title,
       description: blogPost.excerpt,

@@ -17,11 +17,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1,
     }, //@ts-ignore
-    ...allBlogPosts.map(({ urlPath, date }) => ({
-      url: basePath + urlPath,
-      lastModified: new Date(date),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    })),
+    ...allBlogPosts
+      .filter((p) => p.isPublished)
+      .map(({ urlPath, date }) => ({
+        url: basePath + urlPath,
+        lastModified: new Date(date),
+        changeFrequency: "monthly",
+        priority: 0.8,
+      })),
   ];
 }

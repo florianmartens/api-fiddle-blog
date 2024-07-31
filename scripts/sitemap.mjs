@@ -46,7 +46,7 @@ try {
   });
 
   writeFileSync("public/sitemap.xml", formatted);
-  console.log("Succes: sitemap created successfully");
+  console.log("Success: sitemap created successfully");
 } catch (err) {
   console.error("Error: Unable to create sitemap");
 }
