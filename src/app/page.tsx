@@ -15,6 +15,13 @@ const content = {
 export const metadata: Metadata = {
   title: content.heading,
   description: content.description,
+  alternates: {
+    types: {
+      "application/rss+xml": [
+        { url: "blog.api-fiddle.com/rss.xml", title: "rss" },
+      ],
+    },
+  },
 };
 
 export default function Blog() {
@@ -25,14 +32,6 @@ export default function Blog() {
     .reverse();
   return (
     <>
-      <Head>
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title="Api-Fiddle RSS Feed"
-          href="https://blog.api-fiddle.com/rss.xml"
-        />
-      </Head>
       <Navigation />
       <main className="docs-container relative w-full max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16 pb-24 pt-32 sm:pt-40 min-h-screen">
         <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-black dark:text-white">
