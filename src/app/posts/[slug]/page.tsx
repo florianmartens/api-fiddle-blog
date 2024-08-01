@@ -39,7 +39,7 @@ export default function Page({
     <>
       <Navigation />
       <div className="blog-container relative w-full max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16 flex items-start pt-32 sm:pt-40 min-h-screen">
-        <main className="md:px-3 pb-24 -mt-2 grow overflow-visible">
+        <main className="md:px-3 pb-48 -mt-2 grow overflow-visible">
           <Link href="/">
             <Button variant="outline" className="mb-3">
               <ArrowLeft size={16} className="mr-1" /> Back
