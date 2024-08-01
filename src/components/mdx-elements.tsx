@@ -71,3 +71,11 @@ export const MdxA: React.FC<React.PropsWithChildren> = ({ children }) => {
 export const MdxP: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <p className="pb-4">{children}</p>;
 };
+
+export const MdxUl: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return (
+    <ul className="list-disc list-outside pl-6 pr-24 [&>li]:mb-3">
+      {children}
+    </ul>
+  );
+};

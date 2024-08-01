@@ -1,0 +1,241 @@
+---
+isPublished: true
+title: "Handle Cursor-Based Pagination With React And React Query"
+date: 2024-08-01
+excerpt: Learn how to handle cursor based pagination in react with and without caching
+keywords:
+  - TypeScript
+  - React
+  - Pagination
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+---
+
+When building applications that fetch data from an API, managing large datasets efficiently is crucial for 
+both performance and user experience. One common method for achieving this is pagination, which breaks data into smaller, 
+manageable chunks. Cursor-based pagination is a popular technique that addresses some of the limitations of traditional
+offset-based pagination, particularly in systems where data changes frequently.
+
+## What is Cursor-Based Pagination?
+
+[Cursor-based pagination](https://www.prisma.io/docs/orm/prisma-client/queries/pagination#cursor-based-pagination) uses a unique identifier (cursor) to fetch the next set of records.
+Instead of using page numbers, each record has a cursor pointing to its position, allowing the API to retrieve subsequent items 
+based on the last retrieved cursor. This approach is more efficient and reliable for dynamic datasets as it avoids issues like 
+missing items or data shifting due to concurrent data changes.
+
+With all the advantages cursor based pagination provides on the backend, it comes with some challenges when implementing frontends.
+Since the API returns the next pager only, there is no way of telling how many pages there are. Only on the last page will `has_more`
+be false indicating that we're on the last page.
+
+What's more? We're also not able to jump to a specific page. Instead we have to fetch one cursor after another. To make this more efficient
+and allow us to go back, we store previous cursors and cache data we have already fetched.
+
+### Example API Response
+
+Here's an example of a cursor-based pagination API response:
+
+```json
+{
+  "data": [
+    {
+      "id": "1",
+      "name": "Item 1"
+    },
+    {
+      "id": "2",
+      "name": "Item 2"
+    },
+    {
+      "id": "3",
+      "name": "Item 3"
+    }
+  ],
+  "paging": {
+    "next_cursor": "3",
+    "previous_cursor": null,
+    "has_more": false
+  }
+}
+```
+
+In this response:
+
+- **data** is an array of items returned for the current page.
+- **paging.next_cursor** is the cursor pointing to the next page.
+- **paging.previous_cursor** is the cursor pointing to the previous page.
+
+## Implementing Cursor-Based Pagination in React
+The challenge with cursor-based pagination is managing the cursor state. Let's walk through a basic implementation in React,
+then extend it with caching and react-query.
+
+## Initial Implementation with Caching
+To optimize performance, we'll cache the fetched data locally so that revisiting pages doesn't require additional API calls.
+
+```js
+import React, { useState, useEffect } from 'react';
+
+const CursorPagination = () => {
+  const [items, setItems] = useState([]);
+  const [nextCursor, setNextCursor] = useState(null);
+  const [cursorStack, setCursorStack] = useState([]);
+  const [cache, setCache] = useState({});
+
+  useEffect(() => {
+    fetchData(null);
+  }, []);
+
+  const fetchData = async (cursor) => {
+    // Check if data is in cache
+    if (cache[cursor]) {
+      setItems(cache[cursor].data);
+      setNextCursor(cache[cursor].nextCursor);
+    } else {
+      const response = await fetch(`/api/items?cursor=${cursor}`);
+      const data = await response.json();
+      setItems(data.data);
+      setNextCursor(data.paging.next_cursor);
+
+      // Save data to cache
+      setCache((prevCache) => ({
+        ...prevCache,
+        [cursor]: {
+          data: data.data,
+          nextCursor: data.paging.next_cursor,
+        },
+      }));
+
+      // Update cursor stack if cursor is not null
+      if (cursor !== null) {
+        setCursorStack((prevStack) => [...prevStack, cursor]);
+      }
+    }
+  };
+
+  const handleNext = () => {
+    if (nextCursor) {
+      fetchData(nextCursor);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (cursorStack.length > 0) {
+      const prevCursor = cursorStack[cursorStack.length - 2];
+      setCursorStack((prevStack) => prevStack.slice(0, -1));
+      fetchData(prevCursor);
+    }
+  };
+
+  return (
+    <div>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
+      <button onClick={handlePrevious} disabled={cursorStack.length <= 1}>
+        Previous
+      </button>
+      <button onClick={handleNext} disabled={!nextCursor}>
+        Next
+      </button>
+    </div>
+  );
+};
+
+export default CursorPagination;
+
+```
+
+### Explanation of Caching Implementation
+- **Cache State:** We added a cache state to store fetched data and cursors. Each entry in the cache is keyed by the cursor.
+- **Cache Check:** Before making an API request, the code checks if the data is already in the cache. If it is, we update the
+  state with the cached data instead of making another request.
+- **Cursor Stack:** This tracks the history of cursors used to navigate back.
+
+## Using React Query for Cursor-Based Pagination
+react-query simplifies data fetching and caching logic. It provides a more structured way to handle server state in React applications,
+offering caching, background updates, and more.
+
+### Using React Query
+Here's how you can refactor the previous example to use react-query:
+
+```js
+import React, { useState } from 'react';
+import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
+const fetchItems = async (cursor) => {
+  const response = await fetch(`/api/items?cursor=${cursor}`);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
+
+const CursorPagination = () => {
+  const [currentCursor, setCurrentCursor] = useState(null);
+  const [cursorStack, setCursorStack] = useState([]);
+
+  const { data, error, isLoading } = useQuery(
+    ['items', currentCursor],
+    () => fetchItems(currentCursor),
+    {
+      keepPreviousData: true, // Keep data from the last successful fetch while loading new data
+    }
+  );
+
+  const handleNext = () => {
+    if (data?.paging.next_cursor) {
+      setCursorStack((prevStack) => [...prevStack, data.paging.next_cursor]);
+      setCurrentCursor(data.paging.next_cursor);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (cursorStack.length > 1) {
+      const prevCursor = cursorStack[cursorStack.length - 2];
+      setCursorStack((prevStack) => prevStack.slice(0, -1));
+      setCurrentCursor(prevCursor);
+    }
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <ul>
+        {data.data.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
+      <button onClick={handlePrevious} disabled={cursorStack.length <= 1}>
+        Previous
+      </button>
+      <button onClick={handleNext} disabled={!data.paging.next_cursor}>
+        Next
+      </button>
+    </div>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <CursorPagination />
+  </QueryClientProvider>
+);
+
+export default App;
+```
+
+### Explanation of React Query Implementation
+- **Query Client:** Initialize a QueryClient and wrap the app with QueryClientProvider to enable React Query.
+- **useQuery Hook:** This hook fetches and caches data, using the cursor as a key. It automatically manages data fetching, caching, and re-fetching logic.
+- **Error Handling and Loading States:** React Query provides built-in handling for loading and error states.
+- **keepPreviousData:** This option retains the previous data while fetching new data, improving the user experience by preventing UI flickers.
+
+By leveraging react-query, we can simplify our pagination logic and take advantage of its powerful caching and state management capabilities, resulting in more efficient and maintainable code.
