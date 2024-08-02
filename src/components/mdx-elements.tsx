@@ -60,7 +60,7 @@ export const MdxH4: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   );
 };
 
-export const MdxA: React.FC<React.PropsWithChildren & { href: string }> = ({
+export const MdxA: React.FC<React.PropsWithChildren & { href?: string }> = ({
   children,
   href,
 }) => {
