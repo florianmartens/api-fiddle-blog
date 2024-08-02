@@ -1,0 +1,83 @@
+---
+isPublished: true
+title: "PUT vs. POST: Choosing the Right Method for Creating Resources in REST APIs"
+date: 2024-08-02
+excerpt: Choose wisely between PUT and POST for REST APIs! PUT ensures idempotency and control, perfect for consistency. POST assigns URLs server-side, ideal for collections.
+keywords:
+  - REST
+  - API Design
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+---
+
+
+When designing REST APIs, one challenge is deciding whether to use PUT or POST to create resources.
+Both methods can be used for resource creation, but they serve different purposes. Understanding these differences can help you in making
+the right choice for your API.
+
+## Understanding PUT and POST
+
+When deciding between PUT and POST you should start by asking yourself: "On what resource is the action performed on?".
+
+With POST you perform the action on a list of resources.
+
+```bash
+POST /accounts/cats
+<YOUR DATA>
+```
+
+A POST request will apend a new resource to the existing list of `/cats`. It is the servers job to assign an identifier to
+the the newly created resource.
+
+When we use PUT, we perform the action on a specific resource. We use the URL to provide an identier of the resource `<cat_name>`.
+
+```bash
+PUT /accounts/cats/<cat_name>
+<YOUR DATA>
+```
+
+As you can see, both PUT and POST can be used to create `cat` records but your API should probably only support one OR the other.
+
+## POST Method
+
+POST request are not inherently idempotent. Multiple identical POST requests can result in multiple resources being created.
+Imagine the following scenario: Due to a network failure the response to a POST request is lost. Since the client never saw the response it assumes the resource 
+was not created and submits another POST request creating another resource.
+
+While this might not be a problem for some apps, this is troublesome if we're dealing with critical resources like payments or purchases.
+
+## PUT Method
+
+The PUT method is used to create OR overwrite a resource at a specific URL.
+
+PUT is defined to assume idempotency. Sending two identical PUT request to a server should have no additional effect. Only one resource will be created.
+The second request will simply update the resource with identical values. Idempotency is a helpful property in many scenarios.
+
+However, you will have to ensure that PUT-idempotency is implemented correctly on the server.
+
+
+## Comparison: PUT vs. POST
+
+Use PUT if you want to define the URL of the resource explicitly. This gives you control over where the resource is created or updated.
+PUT is ideal for situations where you want to ensure that repeated requests do not produce different outcomes. This is beneficial in 
+scenarios like synchronizing data across distributed systems, where retries should not lead to duplicate entries. This makes PUT an excellent choice for resource 
+creation and updates where stability and consistency are critical.
+
+With PUT, you must ensure that your server properly implements idempotency. This involves checking if the resource exists and either
+updating or creating it as necessary.
+
+Use POST if you prefer the server to assign the URL, which is common when adding resources to a collection.
+
+## Conclusion
+Choosing between PUT and POST for creating resources in REST APIs depends on the specific use case and desired server behavior.
+By understanding the differences, especially the idempotency of PUT, you can make informed decisions that enhance your API's reliability
+and functionality. Use PUT when you need idempotency and control over resource URLs, and POST when you prefer server-managed URLs and need
+to handle unique, non-idempotent operations.
+
+## Further Reading
+[Resttalk](http://restalk-patterns.org/post-put.html)
+
+[RFC-7231](https://www.rfc-editor.org/rfc/rfc7231#section-4.3.4)
