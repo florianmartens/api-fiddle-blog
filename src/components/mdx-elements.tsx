@@ -60,9 +60,17 @@ export const MdxH4: React.FC<React.PropsWithChildren<{ id?: string }>> = ({
   );
 };
 
-export const MdxA: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const MdxA: React.FC<React.PropsWithChildren & { href: string }> = ({
+  children,
+  href,
+}) => {
   return (
-    <a className="text-brand cursor-pointer visited:text-brand/60 hover:text-brand/80 hover:underline">
+    <a
+      rel="nofollow"
+      className="text-brand cursor-pointer visited:text-brand/60 hover:text-brand/80 hover:underline"
+      href={href}
+      target="_blank"
+    >
       {children}
     </a>
   );
