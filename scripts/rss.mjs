@@ -14,7 +14,7 @@ const feed = new RSS({
   title: "API-Fiddle Blog",
   feed_url: `${baseUrl}/rss.xml`,
   site_url: baseUrl,
-  image_url: "https://blog.api-fiddle.com/rss-icon.png",
+  image_url: "https://blog.api-fiddle.com/rss-icon-32x32.png",
 });
 
 try {

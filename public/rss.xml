@@ -4,12 +4,12 @@
         <description><![CDATA[API-Fiddle Blog]]></description>
         <link>http://localhost:3000</link>
         <image>
-            <url>https://blog.api-fiddle.com/favicon.ico</url>
+            <url>https://blog.api-fiddle.com/rss-icon-32x32.png</url>
             <title>API-Fiddle Blog</title>
             <link>http://localhost:3000</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 03 Aug 2024 08:27:33 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 03 Aug 2024 08:49:28 GMT</lastBuildDate>
         <atom:link href="http://localhost:3000/rss.xml" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[Add Sitemaps and RSS Feeds to Your Next.js Application with Contentlayer]]></title>
