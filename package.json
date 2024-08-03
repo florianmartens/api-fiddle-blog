@@ -9,7 +9,6 @@
     "start": "next start",
     "lint": "next lint",
     "build:content": "contentlayer2 build",
-    "build:sitemap": "node scripts/sitemap.mjs",
     "build:rss": "node scripts/rss.mjs"
   },
   "dependencies": {
