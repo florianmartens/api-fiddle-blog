@@ -3,7 +3,6 @@ import { allBlogPosts } from "contentlayer/generated";
 import { format } from "date-fns";
 import { ArrowRight } from "lucide-react";
 import { Metadata } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
     types: {
       "application/rss+xml": [
         {
-          url: "https://blog.api-fiddle.com/feed.xml",
+          url: "https://blog.api-fiddle.com/api/feed",
           title: "Api-Fiddle RSS feed",
         },
       ],

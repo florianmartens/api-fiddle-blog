@@ -7,6 +7,7 @@ import { urlFromFilePath } from "content/utils/url-from-file-path";
 import { allBlogPosts } from "contentlayer/generated";
 import { format } from "date-fns";
 import { ArrowLeft, ChevronRight } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -14,14 +15,19 @@ export async function generateMetadata({
   params: { slug },
 }: {
   params: { slug: string[] };
-}) {
+}): Promise<Metadata> {
+  const segment = `/posts/${slug}`;
   const post = allBlogPosts.find((post) => {
-    return urlFromFilePath(post) === `/posts/${slug}`;
+    return urlFromFilePath(post) === segment;
   });
-  if (!post) return;
+  if (!post) return {};
   return {
-    title: `${post.title} – API-Fiddle Blog`,
+    metadataBase: new URL("https:/blog.api-fiddle.com"),
+    title: `${post.title}`,
     description: post.excerpt,
+    alternates: {
+      canonical: segment,
+    },
   };
 }
 

@@ -4,7 +4,7 @@
         <description><![CDATA[API-Fiddle Blog]]></description>
         <link>http://localhost:3000</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 02 Aug 2024 13:08:57 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 03 Aug 2024 07:23:31 GMT</lastBuildDate>
         <atom:link href="http://localhost:3000/rss.xml" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[Add Sitemaps and RSS Feeds to Your Next.js Application with Contentlayer]]></title>
