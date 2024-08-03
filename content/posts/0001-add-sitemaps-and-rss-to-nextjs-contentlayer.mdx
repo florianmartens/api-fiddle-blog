@@ -178,6 +178,7 @@ const feed = new RSS({
   title: "<NAME OF YOUR BLOG>",
   feed_url: `${baseUrl}/rss.xml`,
   site_url: baseUrl,
+  // image_url: <OPTIONAL_ICON_URL>
 });
 
 try {
@@ -216,10 +217,33 @@ Instead of creating the XML manually we're relying on the library `rss`.
 
 Finally, add the two new scripts to your build step:
 
+
 ```json
 {
   "scripts": {
     "build": "next build && npm run build:sitemap && npm run build:rss"
   }
 }
+```
+
+## Add auto discovery
+
+In order for some RSS Readers to find your blog, you go `src/app/page.tsx` (use the `<Head />` component if you are using the `pages` router).
+Next, add this to the top level (below your `import` declarations) of your file.
+
+```ts
+export const metadata: Metadata = {
+  alternates: {
+    types: {
+      "application/rss+xml": [
+        {
+          url: "<FULL_PRODUCTION_URL>/rss.xml",
+          title: "<NAME>",
+        },
+      ],
+    },
+  },
+};
+
+// export default Page ...
 ```
