@@ -5,6 +5,7 @@ import * as ReactTweet from "react-tweet";
 import * as ReactTwitchEmbed from "react-twitch-embed";
 import {
   MdxA,
+  MdxBlockQuote,
   MdxH2,
   MdxH3,
   MdxH4,
@@ -57,6 +58,7 @@ export const MDX: React.FC<{ content: string }> = ({ content }) => {
           h2: MdxH2,
           h3: MdxH3,
           h4: MdxH4,
+          blockquote: MdxBlockQuote,
           pre: Pre,
           a: MdxA,
           p: MdxP,

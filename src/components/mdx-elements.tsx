@@ -76,6 +76,16 @@ export const MdxA: React.FC<React.PropsWithChildren & { href?: string }> = ({
   );
 };
 
+export const MdxBlockQuote: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
+  return (
+    <blockquote className="pt-3 pl-8 border-l-2 text-sm border-brand mb-4">
+      {children}
+    </blockquote>
+  );
+};
+
 export const MdxP: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <p className="pb-4">{children}</p>;
 };
