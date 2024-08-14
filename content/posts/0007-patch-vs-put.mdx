@@ -123,7 +123,7 @@ There are **two** things to note about this example:
 
 -  PATCH requests CAN be idempotent but do not have to be. Here, sending the same request many times will generate a different response on every request.
 In contrast, partially updating our `firstName` from our user record (s. above) was performed idempotently.
-- PATCH requests CAN describe the properties of the record they are changing (e.g. `firstName`). They can also be comprised of of instructions
+- PATCH requests CAN describe the properties of the record they are changing (e.g. `firstName`). They can also be comprised of instructions
  on how to change a record (e.g. `increment: 1`).
 
 ## Conclusion
