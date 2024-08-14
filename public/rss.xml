@@ -3,13 +3,13 @@
         <title><![CDATA[API-Fiddle Blog]]></title>
         <description><![CDATA[API-Fiddle Blog]]></description>
         <link>http://localhost:3000</link>
-        <image>4
+        <image>
             <url>https://blog.api-fiddle.com/rss-icon-32x32.png</url>
             <title>API-Fiddle Blog</title>
             <link>http://localhost:3000</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 03 Aug 2024 08:49:28 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 14 Aug 2024 23:06:09 GMT</lastBuildDate>
         <atom:link href="http://localhost:3000/rss.xml" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[Add Sitemaps and RSS Feeds to Your Next.js Application with Contentlayer]]></title>
@@ -31,6 +31,27 @@
             <link>http://localhost:3000/posts/put-vs-post-for-restful-resource-creation</link>
             <guid isPermaLink="true">http://localhost:3000/posts/put-vs-post-for-restful-resource-creation</guid>
             <pubDate>Fri, 02 Aug 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Naming Conventions in PostgreSQL: A Comprehensive Guide]]></title>
+            <description><![CDATA[Naming conventions in PostgreSQL are important for clarity, consistency, and maintainability. Learn how to design well structured schemas.]]></description>
+            <link>http://localhost:3000/posts/naming-conventions-in-postgresql</link>
+            <guid isPermaLink="true">http://localhost:3000/posts/naming-conventions-in-postgresql</guid>
+            <pubDate>Sat, 03 Aug 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Adding Foreign Keys in PostgreSQL: 4 Methods and Considerations]]></title>
+            <description><![CDATA[Let’s explore the four common ways to create a foreign key relationship, focusing on their syntax, benefits, and drawbacks.]]></description>
+            <link>http://localhost:3000/posts/adding-foreign-keys-to-postgres</link>
+            <guid isPermaLink="true">http://localhost:3000/posts/adding-foreign-keys-to-postgres</guid>
+            <pubDate>Sun, 04 Aug 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[PUT vs. PATCH: It Is About Time To Learn the Difference]]></title>
+            <description><![CDATA[Learn when to use PUT and PATCH in application design]]></description>
+            <link>http://localhost:3000/posts/patch-vs-put</link>
+            <guid isPermaLink="true">http://localhost:3000/posts/patch-vs-put</guid>
+            <pubDate>Wed, 14 Aug 2024 00:00:00 GMT</pubDate>
         </item>
     </channel>
 </rss>
