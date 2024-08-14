@@ -1,0 +1,136 @@
+---
+isPublished: true
+title: "PUT vs. PATCH: It Is About Time To Learn the Difference"
+date: 2024-08-14
+excerpt: "Learn when to use PUT and PATCH in application design"
+keywords:
+  - REST
+  - API
+  - HTTP
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+---
+Understanding the difference between PUT and PATCH can help you design better applications. 
+
+## Full Resource Replacement With PUT
+
+[PUT requests](https://datatracker.ietf.org/doc/html/rfc2616#page-55) replace the entire resource with 
+the provided data. PUT requests require sending the complete representation of the resource. PUT is idempotent, 
+meaning multiple identical requests result in the same resource state.
+
+```bash
+PUT /users/123
+Content-Type: application/json
+{
+  "firstName": "Pablo",
+  "lastName": "Picasso"
+}
+```
+
+Example response:
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": 123,
+  "firstName": "Pablo",
+  "lastName": "Picasso"
+}
+```
+
+PUT request may fail for a number of reasons. These include missing or invalid data (HTTP 400), server errors (HTTP 500),
+missing resources (HTTP 404) and more.
+
+No matter if you send one PUT request or many. It should always yield the same result (unless you get rate limited) and resource state.
+This concept is called idempotency.
+
+## Practical Applications of PATCH
+
+In the wild, we often see PATCH requests to update a subset of resource fields. Let's take our example from above. If we don't which to 
+replace the entire user object but only the first name we may send the following request:
+
+```bash
+PATCH /users/123
+
+{
+  "firstName": "Pablo",
+}
+```
+
+This is a correct usage of PATCH but does not paint the full picture.
+
+## Diving Deeper Into PATCH
+
+Although it is common to see PATCH requests in web applications it is important to note that the PATCH HTTP method is not part of the 
+[Http Specification RFC 2616](https://datatracker.ietf.org/doc/html/rfc2616). Instead, it is a proposed standard tracked in 
+[RFC 5789](https://datatracker.ietf.org/doc/html/rfc5789).
+
+> The PATCH method requests that a set of changes described in the request entity be applied to the resource identified by the Request-URI. The set of changes is represented in a format called a "patch document" identified by a media type.
+
+This definition gives us flexibility in describing the changes we want to apply to a record. We are not restricted 
+to the fields of our record (like `firstName` or `lastName`) but can author any set of instructions meant to change the state of our record.
+
+**A simple example:** Let's imagine our API manages a set of counters. We send requests to increment a counter identified by an `id`.
+
+Let's send a couple requests.
+
+```bash
+PATCH /counters/123
+Content-Type: application/json
+
+{
+  "increment": 1
+}
+```
+
+Response
+
+```bash
+HTTP/1.1 200 OK
+
+{
+  "count": 1,
+}
+```
+
+Another request
+
+```bash
+PUT /counters/123
+Content-Type: application/json
+
+{
+  "increment": 1
+}
+```
+
+Response
+
+```bash
+HTTP/1.1 200 OK
+
+{
+  "count": 2,
+}
+```
+
+As you can see, this PATCH request is not idempotent. We are introducing a side effect.
+Sending the same request many times will generate a different response on every request.
+
+In contrast, partially updating our `firstName` from our user record (s. above) was performed idempotently.
+
+PATCH requests can be idempotent but they don't have to be.
+
+## Conclusion
+PUT is used for complete replacements and ensures idempotency. PATCH requests allow partial updates and can be non-idempotent depending on the operations applied.
+Furthermore, PATCH requests can contain any set of instructions to modify a resource. This set of instructions can be defined by you. This can be as simple as 
+a single field of a resource or as complicated as a [file diff](https://en.wikipedia.org/wiki/Diff).
+
+Understanding these methods' behaviors and appropriate use cases will lead to more effective and efficient API design.
+
+
