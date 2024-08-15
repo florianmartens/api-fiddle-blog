@@ -92,8 +92,6 @@ export const MdxP: React.FC<React.PropsWithChildren> = ({ children }) => {
 
 export const MdxUl: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <ul className="list-disc list-outside pl-6 pr-24 [&>li]:mb-3">
-      {children}
-    </ul>
+    <ul className="list-disc list-outside pl-6 pr-6 [&>li]:mb-3">{children}</ul>
   );
 };

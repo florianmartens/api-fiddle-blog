@@ -51,8 +51,8 @@ This concept is called idempotency.
 
 ## Practical Applications of PATCH
 
-In the wild, we often see PATCH requests to update a subset of resource fields. Let's take our example from above. If we don't which to 
-replace the entire user object but only the first name we may send the following request:
+In the wild, we often see PATCH requests to update a subset of resource fields. Let's take our example from above. To 
+update the `firstName` of our user we send the following request:
 
 ```bash
 PATCH /users/123
@@ -61,6 +61,7 @@ PATCH /users/123
   "firstName": "Pablo",
 }
 ```
+Note that we are including the fields that we want to change not the full user record.
 
 This is a correct usage of PATCH but does not paint the full picture.
 
@@ -73,9 +74,9 @@ Although it is common to see PATCH requests in web applications it is important 
 > The PATCH method requests that a set of changes described in the request entity be applied to the resource identified by the Request-URI. The set of changes is represented in a format called a "patch document" identified by a media type.
 
 This definition gives us flexibility in describing the changes we want to apply to a record. We are not restricted 
-to the fields of our record (like `firstName` or `lastName`) but can author any set of instructions meant to change the state of our record.
+to the fields of our record (like `firstName` or `lastName`). Instead, we can author any set of instructions meant to change the state of our record.
 
-**A simple example:** Let's imagine our API manages a set of counters. We send requests to increment a counter identified by an `id`.
+**A simple example:** Let's imagine our API manages a set of counters. We send requests to increment a counter.
 
 Let's send a couple requests.
 
