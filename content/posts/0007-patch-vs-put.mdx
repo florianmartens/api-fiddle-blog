@@ -49,6 +49,32 @@ missing resources (HTTP 404) and more.
 No matter if you send one PUT request or many. It should always yield the same result (unless you get rate limited) and resource state.
 This concept is called idempotency.
 
+### PUT Requests ... Meet The Real World
+
+While this definition sounds easy enough there are nuances. For example, you may have noticed that the request body of our PUT request did not contain the
+user `id`. Instead, the `id` was part of the URL.
+
+Full resource replacement? I don't think so!
+
+```bash
+PUT /users/123
+Content-Type: application/json
+{
+  # Where is the id?
+  "firstName": "Pablo",
+  "lastName": "Picasso"
+}
+```
+
+User records may contain any number of immutable fields like `createdAt`, `updatedAt`. These fields are not meant to be updated. Our user record may also contain fields
+for internal use that we don't expose at all like `hashedPassword` or `hasReceivedXMarketingEmails`. Are PUT requests valid
+if we omit these fields?
+
+While die-hard believers in the [HTTP RFC](https://datatracker.ietf.org/doc/html/rfc2616#page-55) can make the case that these are invalid PUT requests,
+I'm advocating for a practical approach (feel free to make your own choices).
+
+Use PUT requests when you accept a full list of your resources mutable fields.
+
 ## Practical Applications of PATCH
 
 In the wild, we often see PATCH requests to update a subset of resource fields. Let's take our example from above. To 
