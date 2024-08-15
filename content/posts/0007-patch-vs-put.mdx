@@ -25,6 +25,7 @@ meaning multiple identical requests result in the same resource state.
 PUT /users/123
 Content-Type: application/json
 {
+  "id": 123,
   "firstName": "Pablo",
   "lastName": "Picasso"
 }
@@ -49,33 +50,44 @@ missing resources (HTTP 404) and more.
 No matter if you send one PUT request or many. It should always yield the same result (unless you get rate limited) and resource state.
 This concept is called idempotency.
 
-### PUT Requests ... Meet The Real World
+### PUT Requests And The Real World
 
-While this definition sounds easy enough there are nuances. For example, you may have noticed that the request body of our PUT request did not contain the
-user `id`. Instead, the `id` was part of the URL.
+While this definition sounds easy enough, the real world is more complicated. Even with our simple example we run into three oddities:
 
-Full resource replacement? I don't think so!
+- The `id` of the user is specified in both the URL and the `id` property of the request body.
+- User records may contain any number of fields that are not meant to be updated like: `id`, `createdAt`, `updatedAt`. Yet we're required to add these fields to our request anyway?
+- User records may contain fields for internal use that are not exposed at all like `hashedPassword` or `hasReceivedXMarketingEmails`. Do they need to be present in a PUT request?
+
+In a world where we want to live and die by the spec the answer to these question is probably yes.
+
+Additionally, full resource replacement requires us to do extra work when implementing APIs. For example, we now need to check if the user tried to
+modify any number of immutable fields.
+
+We're also one field propagation away from accidentally updating an immutable field like our `id` or `hashedPassword` in our database.
+
+This frustration sparked the creation of the PATCH method.
+
+As of now, we live in a twilight world. Some production APIs adhere to [RFC 2616](https://datatracker.ietf.org/doc/html/rfc2616) (full resource replacement) but most break with it to be more practical.
+Here are two examples: [Paypal](https://developer.paypal.com/docs/api/invoicing/v2/#templates_update), [Twillio](https://www.twilio.com/docs/sendgrid/api-reference/users-api/update-your-username).
+
+Today, many consumers will consider it idiomatic if PUT requests contain a full list of all mutable fields for a given resource.
 
 ```bash
 PUT /users/123
 Content-Type: application/json
 {
-  # Where is the id?
+  # This id is gone since it is immutable
   "firstName": "Pablo",
   "lastName": "Picasso"
 }
 ```
 
-User records may contain any number of immutable fields like `createdAt`, `updatedAt`. These fields are not meant to be updated. Our user record may also contain fields
-for internal use that we don't expose at all like `hashedPassword` or `hasReceivedXMarketingEmails`. Are PUT requests valid
-if we omit these fields?
-
-While die-hard believers in the [HTTP RFC](https://datatracker.ietf.org/doc/html/rfc2616#page-55) can make the case that these are invalid PUT requests,
-I'm advocating for a practical approach (feel free to make your own choices).
-
-Use PUT requests when you accept a full list of your resources mutable fields.
+**PATCH to the rescue**: Some popular production APIs converted all their mutations from PUT to PATCH to allow for more flexibility. Here are two examples:
+[Pinterest](https://developers.pinterest.com/docs/api/v5/pins-update), [Notion](https://www.postman.com/notionhq/notion-s-api-workspace/request/l3gvnpr/update-a-database). Others support PATCH and PUT at the same time.
 
 ## Practical Applications of PATCH
+
+PATCH request allow partial updates of a resource.
 
 In the wild, we often see PATCH requests to update a subset of resource fields. Let's take our example from above. To 
 update the `firstName` of our user we send the following request:
@@ -87,7 +99,7 @@ PATCH /users/123
   "firstName": "Pablo",
 }
 ```
-Note that we are including the fields that we want to change not the full user record.
+Note that we are including the fields that we want to change and not the full user record.
 
 This is a correct usage of PATCH but does not paint the full picture.
 
