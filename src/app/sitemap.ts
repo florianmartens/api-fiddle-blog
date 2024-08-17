@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: basePath + "/",
       lastModified: new Date(),
       changeFrequency: "daily",
-      priority: 1,
+      priority: 0.8,
     }, //@ts-ignore
     ...allBlogPosts
       .filter((p) => p.isPublished)
@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: basePath + urlPath,
         lastModified: new Date(date),
         changeFrequency: "monthly",
-        priority: 0.8,
+        priority: 1,
       })),
   ];
 }
