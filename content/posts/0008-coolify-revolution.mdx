@@ -1,0 +1,145 @@
+---
+isPublished: true
+title: "Coolify! The self-hosting revolution for the 99%"
+date: 2024-08-26
+excerpt: "Coolify is the tool the trigger the self-hosting revolution"
+keywords:
+  - Coolify
+  - Open Source
+  - Self-Hosting
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+---
+
+To this day, I remember deploying my first Next.js app on Vercel. It was a magical moment.
+
+Before that, I had only known pain. From renting a server, dockerizing, setting up a proxy, SSL certificates, monitoring—you name it!
+
+
+Then came Next.js and Vercel. Sure, they weren’t the first to promise seamless deployments. Products like Heroku, AWS Elastic Beanstalk, etc. all tried to 
+remove the pain from deploying software to the internet.
+
+However, it never felt as magical as connecting my repository to Vercel and pressing that sweet, sweet deploy button. 
+
+What happened next with Next.js and Vercel is far less magical ... but back to the blog post.
+
+## Coolify Clicked
+
+While the internet is in an AI craze, I quietly had another magical moment. This time, it wasn’t 
+fueled by a multimillion-dollar company like Google, AWS, or Vercel.
+
+It was fueled by [Andreas Bacsai](https://x.com/heyandras?lang=en), who turned down over 30 investors to build Coolify as a 
+community-funded project. It is a true revolution as I will try to explain later in this blog post.
+
+During the last weeks, I was on the lookout for the best solution to deploy the [Api-Fiddle](https://api-fiddle.com) REST API. After considering [fly.io](https://fly.io), a friend pointed me to [Coolify](https://github.com/coollabsio/coolify). 
+The name rang familiar—I’d seen it on X before! 
+
+Coolify describes itself as:
+
+> An open-source & self-hostable Heroku / Netlify / Vercel alternative.
+
+I was hooked and ready to give it a try. I rented a Virtual Private Server (VPS) on [Hetzner](https://hetzner.com) and set it up with Coolify. I followed this fantastic 
+[YouTube tutorial](https://www.youtube.com/watch?v=taJlPG82Ucw&t=3431s&pp=ygUHY29vbGlmeQ%3D%3D).
+
+While setting up a VPS isn’t exactly magical, it was simple enough, and it only took couple of hours to get Coolify running on my server.
+
+## My Coolify Moment
+My magic Coolify moment happened right then and there.
+
+Coolify is still in beta and the UI can be a bit rough. But with little effort I became the CEO of my own Vercel-like, 
+fully-featured deployment platform.
+
+Deploying a PostgreSQL instance took three clicks and 30 seconds. Configuring a running instance of Grafana? Another 30 seconds.
+
+When it was time to deploy my app. I pointed Coolify to my GitHub repository and specified the domain.
+
+After a bit of fiddeling my app was deployed with a database, hourly backups, and a [Caddy](https://caddyserver.com/) proxy. Just like that.
+
+Once you get the hang of it, deploying any app that is either dockerized or [Nixpacks-compatible](https://nixpacks.com/docs/getting-started) is a breeze.
+
+This alone makes me talk about Coolify with excitement. But I believe there is more to this story.
+
+I believe Coolify is the catalyst for a true self-hosting revolution for small to mid-sized projects and companies - 
+so 99% of projects out there (I pulled the 99% number out of my hat).
+
+## A Self-Hosting Revolution
+Looking back, I’ve only had one moment in my software career that felt revolutionary. This was my first deployment to Vercel.
+Now, I’ve had another one with Coolify. Before you disagree, let me explain.
+
+No, Coolify isn’t something entirely new. Like so many new things, it’s a wrapper around existing technologies. In the past, you could piece 
+together these technologies yourself and, depending on your skill and luck, end up with something similar to what Coolify offers.
+
+You could achieve this with foundational tools like Kubernetes or Docker Compose and additional layers to support rolling updates, webhooks, etc. 
+It's  a good amount of work, but possible.
+
+Additionally, Coolify isn’t the first attempt to build an open-source Platform as a Service (PaaS). Tools like Dokku have been 
+around since 2014 (Coolify began in 2021).
+
+However, Coolify’s explosive growth in 2024 suggests we’re witnessing a different level of adoption and impact on the wider software community.
+
+<Img src="/post-media/0008-graph.png" alt="Comparison of github starts between Coolify and Dokky" width={864} height={549}/>
+
+[Check out this graph](https://star-history.com/#dokku/dokku&coollabsio/coolify&Date).
+
+To paint the full picture of this revolution, we also need to talk about the recent rise of self-hosted software.
+
+There’s a wide variety of open-source, self-hostable software out there—from Calendly alternative [Cal.com](https://cal.com)
+to email and marketing tools like [Mailcoach](https://www.mailcoach.app/).
+
+In recent years, many software companies have developed a business model around self-hosted (free) versions of their products.
+
+This is not for pure altruism. Companies have open sourced their products so they can sell to large organizations without much hassle!
+This model is called [Comercial Open Source Software](https://cal.com/blog/open-source) (COSS). 
+
+Large enterprises self-hosts tools and retain full ownership of their data. In return, they sign a service contract with the vendor. 
+This saves companies years of security certifications and enterprise sales cycles. All for the price of open sourcing their product that 
+no small company in their right mind would ever self-host...**Right? Right!**
+
+In the past, most self-hosting (aside from WordPress) was cumbersome for small companies. It was easier to wire $100 to Salesforce and 
+hope Slack will do right by them and their data.
+
+I believe Coolify has the potential, power, and adoption curve to change that. Coolify can enable organizations of any size to host an arbitrary number of free,
+self-hosted software with minimal overhead.
+
+Let’s look at this tweet from Jarek Ceborski, an indie creator, hosting his own email marketing platform. It only took him hours to 
+get it online (I'm not sure if he uses Coolify):
+
+<Tweet id="1826556661210767852" />
+
+Here's another Tweet from Theo, a larger creator:
+
+<Tweet id="1827485037169930688" />
+
+More and more developers seem to take advantage of free, self-hostable software.
+
+My argument is this: The increasing availability of well-designed, self-hostable software combined with tools that make self-hosting 
+trivial has the potential to shake things up in a significant way.
+
+While I get that everyone wants to talk about AI, this is happening too. And it is too meaningful to ignore.
+
+## Dorothy, are we still in Kansas?
+One could be tempted to call this a full circle. We came from a world of on-premise (On-Prem) Software, moved to the Cloud, and ended up
+in a Software as a Service (SaaS) world. Now, many are moving out of SaaS and back to compute in the cloud. It may look like we're one step away 
+from dusting off our old servers and going back to On-Prem.
+
+While this is one way to look at it. Another line of thinking is to celebrate the abundancy of tools and context available to deploy our apps with
+cost efficiency and data ownership in mind.
+
+## What About the 1%?
+To be clear, this isn’t a revolution for big tech corporations.
+
+While bit tech companies can use tools like Coolify too, their requirements are likely too 
+strict and their needs too unique. Tools like Coolify are here to empower small creators, indie hackers, and mid-sized organizations.
+
+Additionally, self hosting is no trivial replacement for global infrastructure provided by hyper clouds. However, you might be surprised 
+how far a single VPS + [Cloudflare](https://cloudflare.com) can take you.
+
+## Final Thoughts
+While this is an overwhelmingly positive review of Coolify, please bear in mind that Coolify, while widely used, is still in beta. 
+This article was not sponsored by Coolify, and I have no affiliation with the product other than being a user.
+
+If you’re looking to get started with Coolify, the best place to start is likely [this video](https://www.youtube.com/watch?v=taJlPG82Ucw&t=3431s&pp=ygUHY29vbGlmeQ%3D%3D) 
+along with their [website](https://coolify.io).

@@ -13,6 +13,7 @@ import {
   MdxUl,
 } from "@/components/mdx-elements";
 import { Pre } from "@/components/pre";
+import Image from "next/image";
 
 const YouTube = ({ url }: { url: string }) => (
   <div className="video-container">
@@ -31,6 +32,20 @@ const Tweet = ({ id }: { id: string }) => (
   <div className="tweet">
     <ReactTweet.Tweet id={id} />
   </div>
+);
+
+const Img = ({
+  src,
+  alt,
+  width,
+  height,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}) => (
+  <img src={src} alt={alt} width={width} height={height} className="block" />
 );
 
 const TwitchClip = ({ clip }: { clip: string }) => (
@@ -63,6 +78,7 @@ export const MDX: React.FC<{ content: string }> = ({ content }) => {
           a: MdxA,
           p: MdxP,
           ul: MdxUl,
+          Img: Img,
           Tweet,
           YouTube,
           TwitchClip,
