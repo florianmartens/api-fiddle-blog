@@ -1,0 +1,145 @@
+---
+
+isPublished: true
+title: "What's the Difference Between the Console, Terminal, Terminal Emulators, Command Line, and the Shell Anyway?"
+date: 2024-08-30
+excerpt: "The last blog post you ever have to read on the matter"
+keywords:
+  - Shell
+  - Command Line
+  - Terminal
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+
+---
+
+Programming is the art of mastering a large number of small, interconnected concepts.
+
+One of these concepts is the `command line`. Unfortunately, the journey into the command line often starts with confusing terminology.
+
+After years of programming, I found myself with esoteric knowledge about the difference between the Console, Terminal, Terminal Emulators, Command Line, and Shell. To add insult to injury, these terms are often used incorrectly by people and organizations alike, adding to the confusion.
+
+This blog post aims to be the last blog post you ever have to read on the matter.
+
+Also, it aims to give you a foundational understanding of how things work with the command line.
+
+However, this is not a guide on how to use any of these tools. This post is focused on terminology.
+
+But trust me when I say this... you have a much better shot at mastering the command line after you understand its terminology.
+
+## A trip down memory lane...
+
+When talking about the command line and its terminology, we quickly arrive at a broader conversation about Linux. In fact, you can find a lot of the information from this blog post in books like [The Linux Command Line](https://linuxcommand.org/tlcl.php). However, much of the terminology around the command line predates Linux.
+
+It even predates the operating system many Linux/GNU distributions are based on—Unix. To understand the terminology, we have to go back to the early days of computing.
+
+<Img src="/post-media/0009-computer-without-gui.jpeg" height={400} width={400} alt="Computer showing a text prompt" />
+
+This is a single terminal with a display and a keyboard. It is, in fact, not a computer.
+
+Instead, it is connected to a much larger computer close by. When used, it greets its user with a simple textual interface: a *command prompt*.
+
+There is no mouse and no graphical user interface (GUIs) that lets you click on folders, open an image, or play a song.
+
+In fact, computers did just fine before GUIs. They processed billions of tax returns, election results, and bank accounts, working with magnetic tapes and punched cards as I/O streams.
+
+## Terminal
+
+If you paid attention earlier, you may have noticed that I called the input device a terminal, not a computer. I did so because the device has no compute capabilities. Its sole purpose in life is to accept user input.
+
+<Img src="/post-media/0009-ibm-early-computer.jpg" width={700} height={350} alt="A massive computer in the NASA facilities" />
+
+The *Terminal* machine is the interface between a human and a computer. This follows the literal meaning of the word terminal.
+
+A terminal is the end of something. For example, the place where you embark and disembark an airplane is called a terminal.
+
+Since terminals and computers were two distinct devices, it made sense to come up with a separate word.
+
+A specific iteration of a terminal (shown in the first picture) was called a *console*.
+
+A console was typically a device/terminal that combined a screen and a keyboard (not a computer). You would type your commands on the keyboard of the console and receive output displayed on the screen of the console.
+
+Today, our setups look different. We input our commands into the computer with the help of keyboards, mice, trackpads, microphones, etc.
+
+We can refer to all of these devices as *terminals*.
+
+This might sound confusing since we're used to hearing the word terminal in a different context.
+
+If you are a user of macOS or Linux, you likely have an app preinstalled that is called *Terminal*. However, this program is not a terminal: It is a program called a [*Terminal Emulator*](https://en.wikipedia.org/wiki/Terminal_emulator).
+
+To this day, referring to *Terminal Emulator* programs as *Terminals* causes a great deal of confusion.
+
+Let's take a breath and recap before diving into Terminal Emulators.
+
+## Recap
+
+We learned that the early computers did not come with graphical user interfaces.
+
+To interact with a computer, you'd type commands onto a keyboard (terminal). To see the result of a computation, you would read a screen which is also a terminal.
+
+If you had a specific type of terminal that combined a screen and keyboard, you would refer to this type of terminal as a *console*.
+
+The command `console.log` in JavaScript is actually well named. Naming it `terminal.log` would be worse because terminals are not only output devices like screens but also input devices like keyboards and mice. By naming it `console.log`, we can assume that the device we're logging to has a screen.
+
+However, there are nuances where the naming seems suboptimal. When we call `console.log` on a server, for example, instead of logging to a console, we're in fact logging to a log file. A log file is not a console.
+
+## Terminal Emulators
+
+Enough with the past. Let's fast forward to today. When we boot up modern computers, we're greeted with a nice-looking graphical user interface. Instead of learning complex text commands, we click on things.
+
+This is a convenience that helped many people operate their computers.
+
+However, under the hood, operating systems still expose programs that accept text-based commands.
+
+To interact with programs that take text-based commands as input (called [*shells*](https://en.wikipedia.org/wiki/Command-line_interface#Command-line_interpreter)), we use terminal emulators like [iTerm](https://iterm2.com/), [GNOME Terminal](https://en.wikipedia.org/wiki/GNOME_Terminal), or lately [Warp](https://www.warp.dev/).
+
+As stated above, terminal emulators are GUI applications that emulate the functions of a traditional terminal within a window on your desktop.
+
+It is important to understand that terminals, just like terminal emulators, don't execute anything. Their purpose is to pass text-based commands to a *shell*.
+
+Different terminal emulators may provide convenience features like autocomplete, split screens, and search. But they cannot change the underlying workings of your shell or operating system.
+
+## The Shell / Command line
+
+The shell received its name from traditionally being the [outermost layer of the operating system](https://en.wikipedia.org/wiki/Shell_(computing)).
+
+The term shell is synonymous with the term *Command Line* since the shell is generally defined as a [command line interpreter](https://en.wikipedia.org/wiki/List_of_command-line_interpreters).
+
+The term command-line interpreter refers to a program that reads user commands from a Terminal Emulator and executes them.
+
+The shell translates human-readable commands into actions that the computer can perform.
+
+The shell is a program like any other. It uses the operating system's API to perform tasks just like any other program would. It can be started, stopped, and managed just like other programs.
+
+Since it is just a program, it can easily be replaced. As a user, you have the choice to use the shell that comes preinstalled with your operating system or install a third-party shell like [zsh](https://en.wikipedia.org/wiki/Z_shell).
+
+Almost all Linux distributions supply a shell program from the GNU Project called [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)).
+
+## Wrapping it up one more time
+
+Although console, terminal, terminal emulator, command line, and shell may seem interchangeable, each term defines a specific concept within the realm of computing.
+
+After this blog post, you should feel empowered to make the following mental substitutions when asked these questions at work:
+
+"What Terminal are you using?"
+
+**Mental substitution**: "What terminal emulator are you using to access the shell?"
+
+"What's your favorite shell?"
+
+**Mental substitution**: "What program do you use to interpret and execute text-based commands on your computer?"
+
+"Why aren't you using iTerm?"
+
+**Mental substitution**: "You should use a different program to pass text-based commands to the shell program."
+
+"Why aren't you using z-shell?"
+
+**Mental substitution**: "I believe that using a different program to interpret and execute text-based commands would be helpful to you."
+
+"What was logged to the console?"
+
+**Mental substitution**: "What was printed to the terminal emulator window during execution of a shell command?"
