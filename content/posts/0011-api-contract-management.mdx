@@ -1,0 +1,64 @@
+---
+
+isPublished: true  
+title: "API Contract Management From the Ground Up"  
+date: 2024-09-10  
+excerpt: "Welcome to API-Fiddle!"  
+keywords:
+  - API-Fiddle
+  - API Contracts
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+    
+---
+Welcome to API-Fiddle! You’ve found us at an early stage, which might have sparked some initial frustration—or perhaps, excitement for what’s to come.
+
+### The Birth of API-Fiddle
+
+I'm Florian. I started API-Fiddle while working at Cloudflare roughly three months ago. The idea was to create a quick tool to explain API changes to colleagues without having to write API contracts by hand.
+
+Two to three months later, I believe API-Fiddle is a great tool for handling this specific use case. 
+
+However, I’ve had plenty of time to think about APIs in general, and I believe API-Fiddle can solve an even bigger problem—one you might not even know you have.
+
+In the coming months, API-Fiddle will evolve into a full-featured "API Contract Management Service".
+
+### What Are API Contracts?
+
+API Contracts are documents that describe APIs. Popular formats include OpenAPI and AsyncAPI.
+
+From these contracts, you can generate API clients, SDKs, API documentation, and even graphical interfaces.
+
+A wide array of tools—both open source and proprietary—exist to transform API contracts into artifacts, simplifying developers' workflows and drastically reducing errors and bugs.
+
+Moreover, API contracts play a crucial role in enhancing security. They serve as our best defense against [excessive data exposure](https://owasp.org/API-Security/editions/2019/en/0xa3-excessive-data-exposure/), a top attack vector for APIs on the internet. When combined with API gateways, which can use API contracts as input, the security benefits are amplified. However, the effectiveness of these tools relies on having accurate and well-maintained API contracts as input.
+
+### The Common Misconception About API Contracts
+
+So, how does one author API contracts? You might assume that most developers generate their API contracts from code. This is indeed the common approach: developers auto-generate API contracts and commit them to version control, believing this method enhances resilience and reviewability.
+
+However, this approach undermines the power of API contracts. When contracts are generated from code, every programming mistake propagates into the API contract.
+This can result in bugs, invalid documentation, and, worse, security vulnerabilities such as data exposure—precisely what API contracts are supposed to prevent.
+
+In short: a contract that can be altered freely has no contractual value.
+
+Another approach is to write API contracts by hand. In the real world, most of the best API contracts are written by hand. However, 
+authoring great API contracts by hand is hard and excludes team members who are not familiar with the intricacies of the API contract language.
+
+For companies that prioritize security and accuracy, this raises the question: where should API contracts live, and how should they be authored?
+
+### API Contracts Should Live Inside API-Fiddle
+
+We're not there yet, but we hope API-Fiddle can become a secure, maintainable home for your API contracts.
+
+Our goal is to provide the best and easiest way to create, manage, and govern world-class API contracts.
+
+Additionally, we aim to make it effortless to generate API documentation, clients, gateways, and much more from workspaces 
+within API-Fiddle, going far beyond what is possible with code annotations.
+
+Stay tuned as we embark on this journey together, exploring the future of API contract management.
+
+If this sounds like something you’re interested in, I look forward to welcoming you on board!
