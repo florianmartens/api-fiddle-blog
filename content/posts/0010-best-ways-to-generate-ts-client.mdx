@@ -1,0 +1,45 @@
+---
+
+isPublished: true  
+title: "Best Ways to Generate a TypeScript API Client from an OpenAPI File"  
+date: 2024-09-10  
+excerpt: "Generating a TypeScript or JavaScript API client from an OpenAPI file can be a real game-changer for developers."  
+keywords:
+  - TypeScript
+  - OpenAPI
+  - API Client
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9
+    
+---
+
+Generating a TypeScript client from an OpenAPI file can be a real game-changer for developers, especially when working with large APIs. It streamlines the process, reduces manual coding, and ensures that your client is always in sync with the API. Here, we’ll explore the best open-source tools available, ranked by popularity, to help you choose the right one for your project.
+
+### 1. openapi-ts & openapi-fetch
+
+[link](https://openapi-ts.dev/)
+
+Openapi-ts offers a lightweight approach to code generation. Using local or remote files, you can use openapi-ts to generate a type file that consists of pure TypeScript. Using openapi-fetch, you can construct a typesafe API client from the generated types. This lightweight approach is especially useful when working with large OpenAPI files.
+
+### 2. OpenAPI Generator
+
+[link](https://github.com/OpenAPITools/openapi-generator)
+
+OpenAPI Generator is the default choice for many. The idea behind the tool is to be a Swiss army knife for OpenAPI client generation. The tool supports a wide range of languages and frameworks. However, the project suffers from its complexity and currently has over 4000 unresolved issues. In our tests, we were able to generate a usable client, but the code lacked many of the ergonomics that we would have wished for.
+
+The fetching layer had a custom implementation for middleware that might not belong in a library like this. Additionally, we struggled to get only the interfaces and types we needed from the various CLI modes. As much as we tried, we ended up with a lot of unnecessary error messages and types that were generated multiple times.
+
+### 3. Oatyp
+
+[link](https://github.com/Eywek/oatyp)
+
+Oatyp lacks popularity. With only 5 GitHub stars to boast, it might not be the best choice for large production apps. However, our testing has been positive. It generates a robust API client using axios as its fetch client of choice. It can handle complex OpenAPI files with various composed types. Its usage of axios allows the customization of request interceptors and request/response objects.
+
+### Honorary Mentions: Stainless and Speakeasy
+
+While the focus here has been on open-source tools, it's worth mentioning [Stainless](https://www.stainlessapi.com/) and [Speakeasy](https://speakeasy.com) as honorary mentions. These tools also provide powerful capabilities for generating API clients from OpenAPI files but come as part of paid services.
+
+When it comes to generating TypeScript API clients from OpenAPI files, the choice largely depends on your specific requirements and development workflow. Whether you opt for the broad capabilities of OpenAPI Generator, the TypeScript-focused simplicity of openapi-ts, or idiomatic fetching with axios and Oatyp, you’ll find that these tools can significantly enhance your API client generation process.
