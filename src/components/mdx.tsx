@@ -45,7 +45,13 @@ const Img = ({
   width: number;
   height: number;
 }) => (
-  <img src={src} alt={alt} width={width} height={height} className="block" />
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    className="block pb-6"
+  />
 );
 
 const TwitchClip = ({ clip }: { clip: string }) => (

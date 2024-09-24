@@ -1,0 +1,137 @@
+---
+
+isPublished: true  
+title: "How Dieter Rams’ 10 Principles of Good Design Can Shape REST API Design"  
+date: 2024-09-10  
+excerpt: "In this article, we'll explore how Dieter Rams 10 Principles of Good Design can be applied to creating REST APIs."  
+keywords:
+  - API-Fiddle
+  - API Contracts
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+<Img src="/post-media/0012-dieter-rams.webp" height={554} width={1280} alt="Portrait of dieter rams" />
+
+[Dieter Rams](https://de.wikipedia.org/wiki/Dieter_Rams), a German industrial designer known for his iconic work with Braun, revolutionized design thinking with a focus on **simplicity**, **honesty**, and **usability**. Rams’ famous *“10 principles of good design”* still influence fields beyond traditional product design, including modern digital and software development.
+
+In this article, we'll explore how these principles can be applied to creating **REST APIs**. Just as Rams prioritized **honesty**, **usability**, and **simplicity** over excess, these same ideals can help craft **user-friendly, reliable, and efficient APIs**.
+
+---
+
+## 1. **Good Design is Innovative**
+
+In API design, innovation is reflected in using **modern web standards and technologies** that improve scalability, flexibility, and usability. 
+
+It’s easy to mistake this rule for a prompt to use the latest framework, but that misses the point. Throughout his career, Rams pioneered new technologies only when they produced superior results that could stand the test of time—like his pioneering use of plexiglass for casings.
+
+Before deciding between technologies like [tRPC](https://trpc.io/), [gRPC](https://grpc.io/), or [GraphQL](https://graphql.org/), ask yourself: *Will the result be better? Will my API stand the test of time? Will it be simpler, more approachable, or faster?*
+
+**Examples:**
+- Use tools like [Stainless](https://www.stainlessapi.com/), [Speakeasy](https://www.speakeasy.com/), or [Fern](https://buildwithfern.com/) to generate SDKs that wrap your API or expose your API contract, allowing consumers to generate their own clients.
+- Concider using schema-aware API gateways, [fuzzy testing](https://github.com/microsoft/restler-fuzzer), and/or auto-generated tests to ensure your API returns the expected status codes, response bodies, and metadata.
+- Generate clear, structured documentation for your API using tools open-source tools like [redoc](https://github.com/Redocly/redoc) or paid tools like [Fern](https://buildwithfern.com/) or [Mintlify](https://mintlify.com/).
+
+---
+
+## 2. **Good Design Makes a Product Useful**
+
+The primary objective of any design is to make it **functional**. APIs should be **useful** to the developers consuming them, solving specific problems efficiently.
+
+**Examples:**
+- Develop endpoints to facilitate actions that are cumbersome via the UI, such as bulk updates, deletions, tagging, and cloning.
+- Offer **API-only authentication methods** like OAuth or API keys, avoiding cumbersome sequences like `/login` → `/refresh_tokens` → `/set_scopes`.
+- Ensure that the API has simple and actionable endpoints, e.g., `/login` and `/register` as well as resource-based endpoints like `/users` and `/users/:id`. Avoid cryptic urls like `/users/g/c/get`.
+
+---
+
+## 3. **Good Design is Aesthetic**
+
+Aesthetics in API design? Yes! Just like well-designed products look and feel elegant, APIs can be aesthetically pleasing when their structure and **design patterns** are intuitive.
+
+**Examples:**
+- Adhere to consistent **naming conventions** (e.g., RESTful standards like using plural nouns for resources) and maintain logical **URL hierarchies**.
+- Avoid complex and deeply nested URL schemes. Instead, follow clear, flat nesting rules for your API.
+
+---
+
+## 4. **Good Design Makes a Product Understandable**
+
+APIs should be designed so that developers can understand how to use them with minimal effort.
+
+**Examples:**
+- Use **self-descriptive messages**, correct HTTP verbs (GET, POST, PUT, DELETE), and appropriate status codes (e.g., 200 for success, 404 for not found).
+- Avoid cryptic error codes like `error:xyz-12` that force the user to consult documentation. Instead, use error messages that can be directly consumed by clients e.g. `Username taken: Please choose a unique username`.
+- Consider using standards like [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) or [JSON:API](https://jsonapi.org/) to make APIs easier to navigate (though these may not be ideal for all cases).
+
+---
+
+## 5. **Good Design is Unobtrusive**
+
+A good API should not get in the way. It should facilitate functionality without being overly complex or requiring extensive customization.
+
+**Examples:**
+- Avoid reinventing the wheel. Use **well-known formats** and **strong defaults** (unlike [Microsoft’s field projections API](https://learn.microsoft.com/en-us/linkedin/shared/api-guide/concepts/projections?context=linkedin%2Fcontext#parent-field-as-map)).
+- Ensure **idempotency** in API design. For instance, repeating the same payment request should not result in duplicate transactions.
+
+---
+
+## 6. **Good Design is Honest**
+
+Honesty in design means that the product doesn’t pretend to be more than it is. Similarly, APIs should **clearly communicate** their capabilities without misleading developers.
+
+**Examples:**
+- Avoid **over-promising functionality** or hiding limitations. For instance, use rate-limit headers to communicate endpoint limitations.
+- Avoid **buzzwords** and **technical jargon** when describing API entities.
+
+---
+
+## 7. **Good Design is Long-lasting**
+
+Just as Rams believed that good design should stand the test of time, well-designed APIs should be **future-proof**.
+
+**Examples:**
+- Design your API with [versioning](https://stripe.com/blog/api-versioning) (e.g., `/v1/users`, `/v2/users`) or [evolution](https://graphql.org/faq/best-practices/#how-does-versioning-work-in-graphql) in mind. This allows for changes without breaking existing clients.
+- Avoid **redundant** and **short-lived endpoints**. Every endpoint should be supported throughout the entire lifecycle of your product.
+- Choose stable technologies and frameworks that will be around in 5-10 years.
+
+---
+
+## 8. **Good Design is Thorough, Down to the Last Detail**
+
+Attention to detail in API design means thinking about every aspect, from **error handling** to **pagination**.
+
+**Examples:**
+- Provide comprehensive **error responses** with useful metadata, such as error codes, human-readable messages, and links to documentation.
+- Ensure consistency in API design. If you define an API contract, be notified when changes or breaks occur.
+- Keep both **internal** and **external documentation** up-to-date.
+
+---
+
+## 9. **Good Design is Environmentally Friendly**
+
+In software design, this translates into **efficiency**. APIs should minimize resource usage and optimize performance.
+
+**Examples:**
+- Implement **caching** by using **cache-control headers** for static or cacheable content. This reduces the need for repeated server calls and improves client performance.
+
+---
+
+## 10. **Good Design is as Little Design as Possible**
+
+Rams emphasized simplicity—less is more. In API design, this means avoiding unnecessary complexity and providing only what’s needed.
+
+**Examples:**
+- Stick to the core principles of REST. Use **standard HTTP methods** and avoid complicating the API with extraneous parameters or features.
+- If your API can solve a problem with **fewer endpoints** or **simpler responses**, always opt for that.
+
+---
+
+## **Conclusion**
+
+Dieter Rams’ design philosophy encourages **simplicity**, **honesty**, and **functionality**—values that translate beautifully into the world of API design. By applying these **10 principles** to REST APIs, developers can create APIs that are not only **functional** and **efficient** but also **enjoyable** and **intuitive** to work with.
+
+As Rams might say, *"Good API design is less, but better."*
