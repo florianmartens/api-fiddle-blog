@@ -1,0 +1,163 @@
+---
+isPublished: true  
+title: "Stop Generating OpenAPI Specifications From Code!"  
+date: 2024-09-10  
+excerpt: "Generating OpenAPI files from your server code might seem like a good idea at first, but it introduces unnecessary risks down the line."  
+keywords:
+  - OpenAPI
+  - Code Generation
+  - API Contracts
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+API contracts, like [OpenAPI](https://swagger.io/specification/), [TypeSpec](https://typespec.io/), or [AsyncAPI](https://asyncapi.com/), define the communication 
+between servers and clients. They define URL paths, request bodies, responses, parameters, authentication, and more.
+
+Most contract formats describe RESTful APIs since frameworks like [GraphQL](https://graphql.org/) or [gRPC](https://grpc.io/) have fixed contract formats
+baked into their tooling.
+
+To be clear, you don't need an API contract for your RESTful API: They are awesome but optional.
+
+When done right, API contracts prevent entire categories of bugs. What is more, you can generate...
+
+- API Documentation
+- SDKs and client libraries
+- Test stubs and mocks
+
+... directly from your API contracts.
+
+However, to materialize the benefits of API contracts, you need to create - and maintain - them. And here 
+the software world is split into two camps.
+
+## Generate OpenAPI Specifications From Code
+
+In the first camp, we find fans of the Code-First Approach.
+
+Most modern languages offer open-source tools to generate OpenAPI specifications from server-side code. For this to work, 
+the code is annotated with symbols that are translated into OpenAPI directives.
+
+```typescript
+export class CreateCatDto { // typescript example
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  age: number;
+
+  @ApiProperty()
+  breed: string;
+}
+```
+
+## Manually Create OpenAPI Specifications
+
+In the second camp, people write and maintain OpenAPI specifications by hand or with 
+the help of tools like [API-Fiddle](https://api-fiddle.com), [Swagger Next Editor](https://editor-next.swagger.io/), or [Spotlight](https://stoplight.io/solutions).
+
+## Why The Code-First Approach Is Tempting
+
+At first glance, the Code-First Approach offers many advantages. The tight coupling between server code and contract ensures the 
+contract is never out-of-date. This makes the Code-First Approach seem more automated than manually keeping track of changes—lastly, version control systems for our code offer built-in governance mechanisms when using the Code-First Approach.
+
+But wait! Wasn’t the whole point of this post to discourage you from generating OpenAPI contracts 
+from code? You're right, let’s look at the downsides.
+
+## Why You Probably Shouldn’t Generate OpenAPI Contracts From Code
+
+Let’s explore where we might run into problems with the Code-First Approach.
+
+### Can we please not expose personal data?
+
+As stated above, OpenAPI contracts are meant to be just that: Contracts.
+
+When you generate an OpenAPI file directly from server code, every mistake in your server-side code will propagate to the API 
+contract. This defeats the purpose of having a contract in the first place!
+
+Errors in the Code-First Approach can be costly. Not only are they easy to miss in code reviews, but they often 
+propagate into SDKs and API documentation, where they are easily exploited.
+
+How likely is this to happen? It’s likely enough for "excess data exposure" to rank third 
+on the [OWASP API Vulnerabilities List](https://owasp.org/API-Security/editions/2019/en/0xa3-excessive-data-exposure/). In the past, this has caused sleepless nights for PR teams at companies like 
+[Twitter](https://www.wired.com/story/twitter-leak-200-million-user-email-addresses/) (200M emails stolen) and [Opus](https://outshift.cisco.com/blog/top-5-api-security-breaches-in-2022) (10M user records stolen).
+
+API contracts are our best defense against excess data exposure (especially when combined with gateways that 
+take them as input), but they are only effective when not auto-generated from code.
+
+Our contracts should be generated and reviewed separately to bind our server-side code to our contracts - not the other way around.
+
+Don't believe me? This talk from [Philippe De Ryck](https://www.youtube.com/watch?v=7UBm8QFTaq0&t=1091s) may convince you!
+
+## Code-First Generation of API Contracts Gatekeeps the API Design Process
+
+Designing APIs is not a mystical craft. Yet, it is often seen as such by content writers, 
+product managers, and front-end engineers.
+
+The Code-First Approach does not foster a culture where API design is interdisciplinary. As a result, 
+unnecessary friction is added to the development process. Here are two examples:
+
+- A new full-stack project doesn't start with an API contract since it can only be generated from code once the backend is fully implemented.
+This leads to unilateral changes to the API definition during development. Major rework is required when integrating the 
+front and back-end.
+- Content writers are unable to improve API error messages because backend engineers gatekeep the API implementation and contract.
+
+To remove this gatekeeping, engineers, content writers, product managers, and executives should be able to contribute to
+the API contract. However, this is next to impossible if API contracts live in highly contextual backend codebases.
+
+### You’re Just Not Going to Get There!
+
+Let’s talk about the quality of API contracts. Discussions about quality can be tricky because quality is - of course - subjective 
+and often not as critical as some claim.
+
+However, when it comes to API contracts, the story is different. The difference between a good and bad 
+contract is not just about pedanticism and bikeshedding. Bad API contracts often translate into bad API documentation and a worse user experience.
+
+While experiences vary, it’s unlikely that you will end up with a high-quality API contract from 
+code annotations alone.
+
+Like code, API contracts should adhere to best practices, use reusable components, 
+follow style guides, and include extensive descriptions. Code annotation tools make it very, very hard to use any of these features effectively.
+
+Let’s take a look at [Asana's OpenAPI contract](https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml) as an example 
+of a professional-grade API contract. Asana is a popular productivity tool. One of its products is its public API.
+
+Look at the number of reused components and parameters that add a high degree of consistency to the API contract. My palms get sweaty just thinking 
+about implementing and maintaining such an API contract through code annotations alone.
+
+### Where's Your Home, Contract?
+You may ignore the points above and opt for the Code-First Approach regardless. Let me take you down the rabbit hole...
+
+After code-first generation your `openapi.yaml` file is located in the root directory of your server codebase.
+
+Next, you want to generate API documentation from your API contract. To achieve this you either have to move your openapi-file into a separate repository or 
+add all the documentation code (an entirely separate repository) to your backend code.
+
+For simplicity, you choose to colocate the documentation code with your backend code. This is messy but aligns with your 
+philosophy about tightly coupling implementation and contract code.
+
+Next, your front-end wants to consume the contract to generate a client. Your options are:
+-  Move the frontend into the same repo (monorepo style)
+-  Push the OpenAPI file to a separate repository where it can be consumed by the front-end.
+-  Generate a client library from your backend code and publish it as an SDK to a registry.
+
+Things are now much more complex than they need to be. All for the simple goal of having a contract that all parties can consume easily.
+
+And we haven't even talked about Gateways yet. They need to combine multiple definitions from multiple places. Ouch.
+
+My point is this: The root of your backend repository does not make a great home for your contract. While you can work around this,
+you may end up in a more complex situation than anticipated.
+
+## Final Words
+
+Generating OpenAPI files from your server code might seem like a good idea at first, but it 
+introduces unnecessary risks down the line. Additionally, the chance of exposing sensitive data due to server-side 
+mistakes is concerning. By managing your API contracts separately, you keep them secure, 
+reliable, and thoroughly reviewed.
+
+You may have noticed that this post - while featuring my honest opinion - is also a sales pitch for the tool we’re building. Although 
+we’re not quite there yet, we hope to provide a secure and scalable home for API contracts in the near future.
+
+You can sign up to try [API-Fiddle](https://api-fiddle.com/login). We'll keep you in the loop as we're launching new features.
