@@ -1,0 +1,1295 @@
+openapi: 3.1.0
+info:
+  title: Api-fiddle Bookstore Example
+  version: 1.0.0
+  description: A basic example API for managing a bookstore's book collection.
+paths:
+  /v1/users/me:
+    get:
+      tags:
+      - users
+      summary: Get me
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK - Successful request with response body
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: GetMeUnauthorized
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Unauthorized - Authentication required
+      parameters: []
+      operationId: getMe
+  /v1/public/users:
+    post:
+      tags:
+      - users
+      summary: Create user
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: The request was successful, and a new resource was created.
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - message
+                properties:
+                  message:
+                    type: string
+          description: The server could not understand the request due to invalid syntax. The client should modify the request and try again.
+      parameters: []
+      operationId: createUser
+  /v1/organizations:
+    post:
+      tags:
+      - organizations
+      summary: Create organization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PostOrganizationsCreated
+                required:
+                - status
+                - data
+                - location
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  status:
+                    enum:
+                    - success
+                    type: string
+                    default: success
+                  location:
+                    type: string
+          description: Created - Resource successfully created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PostOrganizationsUnauthorized
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Unauthorized - Authentication required
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: Internal Server Error - Unexpected server error
+      parameters: []
+      operationId: postOrganizations
+  /v1/users/{user_id}:
+    patch:
+      tags:
+      - users
+      summary: Get user
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK - Resource successfully partially updated
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchUserBadRequest
+                required:
+                - status
+                - message
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - field
+                      - message
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    type: string
+          description: Bad Request - Invalid request body
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchUserUnauthorized
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Unauthorized - Authentication required
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchUserForbidden
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Forbidden
+                    type: string
+                    default: Forbidden
+          description: Forbidden - Authenticated but not authorized
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+        required: true
+      operationId: patchUser
+  /v1/workspace-items:
+    post:
+      tags:
+      - workspace-items
+      summary: Create workspace item
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PostWorkspaceItemsCreated
+                required:
+                - status
+                - data
+                - location
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  status:
+                    enum:
+                    - success
+                    type: string
+                    default: success
+                  location:
+                    type: string
+          description: Created - Resource successfully created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerErrror'
+      parameters: []
+      operationId: postWorkspaceItems
+  /v1/public/verify-email:
+    post:
+      tags:
+      - users
+      summary: Verify email
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: 'null'
+                title: VerifyEmailCreated
+          description: The request was successful, and a new resource was created.
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: VerifyEmailForbidden
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Forbidden
+                    type: string
+                    default: Forbidden
+          description: The server understood the request, but refuses to authorize it. Ensure the client has appropriate permissions.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: VerifyEmailInternalServerError
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Internal Server Error
+                    type: string
+                    default: Internal Server Error
+          description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
+      parameters: []
+      operationId: verifyEmail
+  /v1/workspace-documents:
+    post:
+      tags:
+      - workspace-documents
+      summary: Create workspace document
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PostWorkspaceDocumentsOk
+                required:
+                - id
+                - lkj
+                properties:
+                  id:
+                    type: string
+                  lkj:
+                    type: string
+          description: GET /v1/workspace-documents
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PostWorkspaceDocumentsUnauthorized
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Authentication is required to access the requested resource. The client must include the appropriate credentials.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PostWorkspaceDocumentsInternalServerError
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Internal Server Error
+                    type: string
+                    default: Internal Server Error
+          description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
+      parameters: []
+      description: Create workspace document
+      operationId: postWorkspaceDocuments
+  /v1/public/me/token-refresh:
+    post:
+      tags:
+      - users
+      summary: Refresh token
+      security: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: RefreshTokenCreated
+                required:
+                - access_token
+                - refresh_token
+                properties:
+                  access_token:
+                    type: string
+                  refresh_token:
+                    type: string
+          description: Created - Resource successfully created
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: RefreshTokenUnauthorized
+                required:
+                - message
+                properties:
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Authentication is required to access the requested resource. The client must include the appropriate credentials.
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: RefreshTokenInternalServerError
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Internal Server Error
+                    type: string
+                    default: Internal Server Error
+          description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
+      parameters: []
+      operationId: refreshToken
+  /v1/workspaces/{workspace_id}:
+    patch:
+      tags:
+      - workspaces
+      summary: Patch workspace
+      security:
+      - BearerJwt: []
+      - BearerBasic: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchWorkspaceOk
+                required:
+                - status
+                - data
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  status:
+                    enum:
+                    - success
+                    type: string
+                    default: success
+          description: OK - Resource successfully partially updated
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchWorkspaceBadRequest
+                required:
+                - status
+                - message
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - field
+                      - message
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    type: string
+          description: Bad Request - Invalid request body
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchWorkspaceUnauthorized
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Unauthorized - Authentication required
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchWorkspaceInternalServerError
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Internal Server Error
+                    type: string
+                    default: Internal Server Error
+          description: Internal Server Error - Unexpected server error
+      parameters:
+      - in: path
+        name: workspace_id
+        schema:
+          type: string
+        required: true
+      operationId: patchWorkspace
+    delete:
+      tags:
+      - workspaces
+      summary: Delete workspace
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                type: 'null'
+                title: DeleteWorkspaceNoContent
+          description: No Content - Resource successfully deleted
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: DeleteWorkspaceNotFound
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Not Found
+                    type: string
+                    default: Not Found
+          description: Not Found - Resource doesn't exist
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: DeleteWorkspaceInternalServerError
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Internal Server Error
+                    type: string
+                    default: Internal Server Error
+          description: Internal Server Error - Unexpected server error
+      parameters:
+      - in: path
+        name: workspace_id
+        schema:
+          type: string
+        required: true
+      operationId: deleteWorkspace
+  /v1/organizations/{organization_id}:
+    patch:
+      tags:
+      - organizations
+      summary: Patch organization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchOrganizationOk
+                required:
+                - status
+                - data
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  status:
+                    enum:
+                    - success
+                    type: string
+                    default: success
+          description: OK - Resource successfully partially updated
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchOrganizationBadRequest
+                required:
+                - status
+                - message
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - field
+                      - message
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    type: string
+          description: Bad Request - Invalid request body
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchOrganizationUnauthorized
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Unauthorized
+                    type: string
+                    default: Unauthorized
+          description: Unauthorized - Authentication required
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatchOrganizationInternalServerError
+                required:
+                - status
+                - message
+                properties:
+                  status:
+                    enum:
+                    - error
+                    type: string
+                    default: error
+                  message:
+                    enum:
+                    - Internal Server Error
+                    type: string
+                    default: Internal Server Error
+          description: Internal Server Error - Unexpected server error
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: string
+        required: true
+      description: Patch organization
+      operationId: patchOrganization
+  /v1/workspaces/{workspace_slug_or_id}:
+    get:
+      tags:
+      - workspaces
+      summary: Get workspace
+      security:
+      - ApiKey: []
+      - BearerBasic: []
+      - BearerCustom: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: GetWorkspaceOk
+                required:
+                - status
+                - data
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  status:
+                    enum:
+                    - success
+                    type: string
+                    default: success
+          description: OK - Successful request with response body
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerErrror'
+      parameters:
+      - in: path
+        name: workspace_slug_or_id
+        schema:
+          type: string
+        required: true
+      operationId: getWorkspace
+  /v1/organizations/{organization_slug}/workspaces:
+    get:
+      tags:
+      - workspaces
+      summary: Get organization workspaces
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: GetWorkspacesOk
+                required:
+                - asdf
+                properties:
+                  id:
+                    type: string
+                  asdf:
+                    type: string
+          description: GET /organizations/{organization_slug}/workspaces
+      parameters:
+      - $ref: '#/components/parameters/organization_slug'
+      operationId: getWorkspaces
+  /v1/public/workspaces/{organization_slug}/{workspace_slug}:
+    get:
+      tags:
+      - workspaces
+      summary: Get public workspace
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: GetPublicWorkspaceOk
+                required:
+                - status
+                - data
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  status:
+                    enum:
+                    - success
+                    type: string
+                    default: success
+          description: OK - Successful request with response body
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - $ref: '#/components/parameters/organization_slug'
+      - $ref: '#/components/parameters/workspace_slug'
+      operationId: getPublicWorkspace
+components:
+  schemas:
+    User:
+      type: object
+      required:
+      - id
+      - username
+      - email
+      - token_version
+      - email_verified_at
+      - organization_id
+      - is_oauth_only
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        is_oauth_only:
+          type: string
+        token_version:
+          type: string
+        organization_id:
+          type: string
+        email_verified_at:
+          type: string
+    Workspace:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - access_level
+      - organization_id
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        access_level:
+          type: string
+        organization_id:
+          type: string
+    UserCreate:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        is_oauth_only:
+          type: string
+        token_version:
+          type: string
+        organization_id:
+          type: string
+        email_verified_at:
+          type: string
+      description: Data transfer object for creating a new User.
+      x-fiddle-dto-info:
+        baseSchemaName: User
+    UserUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        is_oauth_only:
+          type: string
+        token_version:
+          type: string
+        organization_id:
+          type: string
+        email_verified_at:
+          type: string
+      description: Data transfer object for updating all fields of an existing User (PUT operation).
+      x-fiddle-dto-info:
+        baseSchemaName: User
+    UserSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        is_oauth_only:
+          type: string
+        token_version:
+          type: string
+        organization_id:
+          type: string
+        email_verified_at:
+          type: string
+      description: A simplified representation of a User, typically used in list views.
+      x-fiddle-dto-info:
+        baseSchemaName: User
+    Organization:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+    WorkspaceItem:
+      type: object
+      required:
+      - id
+      - name
+      - workspace_id
+      - organization_id
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: string
+        organization_id:
+          type: string
+    WorkspaceCreate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        access_level:
+          type: string
+        organization_id:
+          type: string
+      description: Data transfer object for creating a new Workspace.
+      x-fiddle-dto-info:
+        baseSchemaName: Workspace
+    WorkspaceUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        access_level:
+          type: string
+        organization_id:
+          type: string
+      description: Data transfer object for updating all fields of an existing Workspace (PUT operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Workspace
+    UserPartialUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        is_oauth_only:
+          type: string
+        token_version:
+          type: string
+        organization_id:
+          type: string
+        email_verified_at:
+          type: string
+      description: Data transfer object for partially updating an existing User (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: User
+    WorkspaceDocument:
+      type: object
+      required:
+      - id
+      - workspace_item_id
+      - workspace_id
+      - organization_id
+      - data
+      - document_type
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+        data:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: string
+        document_type:
+          type: string
+        organization_id:
+          type: string
+        workspace_item_id:
+          type: string
+    OrganizationCreate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      description: Data transfer object for creating a new Organization.
+      x-fiddle-dto-info:
+        baseSchemaName: Organization
+    WorkspaceItemCreate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: string
+        organization_id:
+          type: string
+      description: Data transfer object for creating a new WorkspaceItem.
+      x-fiddle-dto-info:
+        baseSchemaName: WorkspaceItem
+    WorkspacePartialUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        access_level:
+          type: string
+        organization_id:
+          type: string
+      description: Data transfer object for partially updating an existing Workspace (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Workspace
+    WorkspaceDocumentCreate:
+      type: object
+      properties:
+        id:
+          type: string
+        data:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: string
+        document_type:
+          type: string
+        organization_id:
+          type: string
+        workspace_item_id:
+          type: string
+      description: Data transfer object for creating a new WorkspaceDocument.
+      x-fiddle-dto-info:
+        baseSchemaName: WorkspaceDocument
+    OrganizationPartialUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      description: Data transfer object for partially updating an existing Organization (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Organization
+    WorkspaceItemPartialUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: string
+        organization_id:
+          type: string
+      description: Data transfer object for partially updating an existing WorkspaceItem (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: WorkspaceItem
+    WorkspaceDocumentPartialUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        data:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: string
+        document_type:
+          type: string
+        organization_id:
+          type: string
+        workspace_item_id:
+          type: string
+      description: Data transfer object for partially updating an existing WorkspaceDocument (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: WorkspaceDocument
+  responses:
+    NotFound:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - message
+            properties:
+              message:
+                enum:
+                - Not Found
+                type: string
+                default: Not Found
+      description: The server cannot find the requested resource. The endpoint may be invalid or the resource may no longer exist.
+    Forbidden:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - message
+            properties:
+              message:
+                enum:
+                - Forbidden
+                type: string
+                default: Forbidden
+      description: The server understood the request, but refuses to authorize it. Ensure the client has appropriate permissions.
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - message
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - message
+                  properties:
+                    message:
+                      type: string
+              message:
+                type: string
+      description: The server could not understand the request due to invalid syntax. The client should modify the request and try again.
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - message
+            properties:
+              message:
+                enum:
+                - Unauthorized
+                type: string
+                default: Unauthorized
+      description: Authentication is required to access the requested resource. The client must include the appropriate credentials.
+    InternalServerErrror:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - message
+            properties:
+              message:
+                enum:
+                - Internal Server Error
+                type: string
+                default: Internal Server Error
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
+  parameters:
+    workspace_slug:
+      in: path
+      name: workspace_slug
+      schema:
+        type: string
+      required: true
+    organization_slug:
+      in: path
+      name: organization_slug
+      schema:
+        type: string
+      required: true
+  securitySchemes:
+    ApiKey:
+      in: header
+      name: API_KEY
+      type: apiKey
+    BearerJwt:
+      type: http
+      scheme: Bearer
+      bearerFormat: Json Web Token (JWT)
+    BearerBasic:
+      type: http
+      scheme: Basic
+      bearerFormat: Basic Access Authentication
+    BearerCustom:
+      type: http
+      scheme: Bearer
+      bearerFormat: Custom token
+tags:
+- name: organizations
+- name: workspaces
+- name: users
+- name: workspace-documents
+- name: workspace-items
+  description: ''
