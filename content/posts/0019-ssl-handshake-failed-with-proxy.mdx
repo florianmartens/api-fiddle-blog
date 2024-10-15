@@ -1,0 +1,111 @@
+---
+isPublished: true  
+title: "Fixing \"This Site Can’t Provide a Secure Connection\" or \"SSL Handshake Failed\" in Caddy"  
+date: 2024-10-14  
+excerpt: "Here's a common reason for this issue and a way to fix it."  
+keywords:
+  - SSL
+  - Caddy
+  - Coolify
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+If you’ve encountered errors like **"This site can’t provide a secure connection"** or **"SSL handshake failed"** while using Caddy with a deployment platform like **Coolify**, you’re not alone. These errors are particularly common when setting up SSL certificates, especially in environments where Caddy acts as a proxy.
+
+Here's a breakdown of why this happens and how to fix it.
+
+---
+
+### Why Does This Happen?
+
+Caddy is a powerful web server that simplifies the process of securing your site with SSL. Out of the box, Caddy automatically manages SSL certificates for you using **Let’s Encrypt**, a popular Certificate Authority that issues free SSL certificates.
+
+Here’s where things can go wrong: 
+
+To request and verify an SSL certificate, **Let’s Encrypt requires access to port 80** on your server. This is because Let’s Encrypt performs domain validation over HTTP (port 80) before issuing the certificate for HTTPS (port 443). If port 80 is **blocked or disabled** on your firewall, Caddy cannot complete this process, leading to the errors like:
+
+- **"This site can’t provide a secure connection"**
+- **"SSL handshake failed"**
+
+---
+
+### What Is an SSL Handshake?
+
+An **SSL handshake** is the process by which a client (usually a browser) and a server establish a secure connection using SSL/TLS. If this handshake fails, the browser will show an error, indicating that it couldn’t establish a secure connection.
+
+In this case, the SSL handshake failure is typically due to Caddy not having a valid SSL certificate yet, because Let’s Encrypt couldn’t validate your domain via port 80.
+
+---
+
+### The Importance of Port 80 for SSL Certificates
+
+By default, Let’s Encrypt uses **HTTP-01** validation to confirm that you own the domain you’re requesting an SSL certificate for. During this validation process, Let’s Encrypt sends an HTTP request to your domain via **port 80** to verify that your server controls the domain.
+
+If port 80 is blocked or closed (which often happens when security-conscious users configure firewalls), this validation fails, and the certificate won’t be issued. As a result, Caddy can’t provide a secure connection, and the SSL handshake fails.
+
+---
+
+### How to Fix It
+
+Here’s how to resolve the issue and ensure Caddy can generate SSL certificates properly:
+
+1. **Open Port 80 on Your Firewall:**
+   - Check your server's firewall settings (such as **UFW** on Ubuntu or **firewalld** on CentOS) to make sure port 80 is open.
+   - Example (UFW):
+     ```bash
+     sudo ufw allow 80/tcp
+     sudo ufw allow 443/tcp
+     sudo ufw reload
+     ```
+   - Example (firewalld):
+     ```bash
+     sudo firewall-cmd --permanent --add-port=80/tcp
+     sudo firewall-cmd --permanent --add-port=443/tcp
+     sudo firewall-cmd --reload
+     ```
+
+2. **Restart Caddy:**
+   After ensuring port 80 is open, restart the Caddy service to retry the SSL certificate request.
+   ```bash
+   sudo systemctl restart caddy
+   ```
+
+3. **Verify SSL Status:**
+   Check whether the SSL certificate has been successfully issued by accessing your domain with HTTPS or using an SSL checker tool.
+
+---
+
+### Alternative Fix: DNS Validation
+
+If you cannot or do not want to open port 80 (for security reasons or otherwise), another option is to configure Caddy to use **DNS-01 validation** with Let’s Encrypt. This method uses DNS records to verify domain ownership, bypassing the need for port 80. However, this requires additional configuration with your DNS provider.
+
+---
+
+### Debugging SSL Issues
+
+If you’ve opened port 80 and still see SSL issues, here are a few troubleshooting steps:
+- **Check Caddy Logs:** The Caddy logs can give insight into what’s going wrong. Look for certificate-related errors.
+    ```bash
+    journalctl -u caddy --no-pager | less
+    ```
+- **Ensure Domain Is Pointed Correctly:** Verify that your domain is pointing to the correct IP address of your server.
+- **Check DNS Propagation:** If you’ve recently updated DNS records, make sure they’ve propagated.
+
+---
+
+### More About Let’s Encrypt
+
+For more detailed information on why Let’s Encrypt requires port 80, you can refer to their official documentation [here](https://letsencrypt.org/docs/allow-port-80/).
+
+---
+
+### Final Thoughts
+
+The **"This site can’t provide a secure connection"** and **"SSL handshake failed"** errors are often linked to closed port 80, preventing Let’s Encrypt from issuing SSL certificates through Caddy. By ensuring that port 80 is open, you can resolve these issues and allow Caddy to secure your site with SSL certificates seamlessly.
+
+Once you have the SSL certificate, your visitors will be able to access your site securely via HTTPS.
+

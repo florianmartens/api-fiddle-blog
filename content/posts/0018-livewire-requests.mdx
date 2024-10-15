@@ -1,0 +1,34 @@
+---
+isPublished: true  
+title: "Why Are There Requests to ‘livewire/livewire’ in My Analytics?"  
+date: 2024-10-14  
+excerpt: "Livewire updates in your analytics are common is you are using sef-hosted tools like Coolify."  
+keywords:
+  - PHP
+  - Livewrite
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+If you've noticed recurring requests to `/livewire/livewire` in your website analytics, you might be wondering what they are. This is especially common if you’re using or hosting platforms that rely on **Livewire**, a popular PHP framework.
+
+## What Is Livewire?
+
+**Livewire** is a full-stack framework for **Laravel**, enabling developers to build dynamic interfaces without needing much JavaScript. Instead of handling all client-side interactivity with JavaScript (like you would with something like React or Vue.js), Livewire leverages server-side PHP to handle these updates.
+
+In practice, Livewire works by sending **AJAX requests** back to the server every time a user interacts with a component on the page. These requests update the component’s state and re-render the affected parts of the HTML on the fly. This means, for every interaction—whether it's clicking a button or filling out a form—Livewire makes a small request, commonly labeled as `livewire/livewire`, to the server to fetch the latest update.
+
+## Why Is This Showing Up in Analytics?
+
+If your site is built with Livewire, or you're using a self-hosted tool that incorporates Livewire (like **Coolify**), you’ll see these update requests in your logs or analytics. It’s part of how the framework ensures seamless, real-time interaction between the user interface and the server.
+
+For example, if you use Coolify (which is built with Livewire), these `livewire/livewire` requests are common every time you interact with the platform’s UI—whether deploying an app or updating server settings.
+
+## Is This a Problem?
+
+Not at all! These requests are a natural part of how Livewire functions. If you're seeing them in your analytics, it just means that real-time updates are working as expected.
+
+If you're hosting a site or tool that uses Livewire, now you know why these requests keep appearing—and why they’re nothing to worry about.

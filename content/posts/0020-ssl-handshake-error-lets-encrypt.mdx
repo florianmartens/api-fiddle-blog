@@ -1,0 +1,107 @@
+---
+isPublished: true  
+title: "Fixing \"This Site Can’t Provide a Secure Connection\" or \"SSL Handshake Failed\" with Let’s Encrypt"  
+date: 2024-10-14  
+excerpt: "A closed port 80 is a common reason for this error."  
+keywords:
+  - SSL
+  - Lets Encrypt
+  - Proxy
+  - Firewall
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+If you’ve run into errors like **"This site can’t provide a secure connection"** or **"SSL handshake failed"** when using **Let’s Encrypt** to generate an SSL certificate, it’s often due to issues during the SSL certificate request process. Fortunately, this is a common issue, and there’s a straightforward fix.
+
+Here’s why it happens, what it means, and how you can resolve it.
+
+---
+
+### Why Does This Error Occur?
+
+Let’s Encrypt is a free, automated, and open certificate authority (CA) that helps websites obtain SSL certificates, allowing secure connections (via HTTPS). When you see errors like **"This site can’t provide a secure connection"** or **"SSL handshake failed,"** it often means Let’s Encrypt was unable to complete the SSL certificate issuance process.
+
+Typically, this happens because the validation step needed to prove domain ownership failed.
+
+#### What Is an SSL Handshake?
+
+An **SSL handshake** is the process by which a client (usually a browser) and a server establish a secure connection using SSL/TLS encryption. If this handshake fails, it means the server either doesn’t have a valid SSL certificate or couldn’t complete the process needed to set one up.
+
+When Let’s Encrypt can’t issue a valid SSL certificate, the handshake fails, and browsers will display this error message.
+
+---
+
+### The Role of Port 80 in SSL Certificates
+
+Let’s Encrypt commonly uses **HTTP-01** validation to verify that you own the domain for which you’re requesting a certificate. This validation requires **port 80** to be open because Let’s Encrypt sends an HTTP request to your domain via this port to confirm ownership.
+
+If **port 80** is blocked, the validation process fails, and Let’s Encrypt can’t issue the SSL certificate. This often happens when port 80 is disabled in your firewall or when server security settings are too restrictive.
+
+---
+
+### How to Fix It
+
+To resolve this issue and ensure Let’s Encrypt can generate your SSL certificate, follow these steps:
+
+#### 1. **Open Port 80 on Your Firewall:**
+
+Ensure that **port 80** (HTTP) is open on your firewall to allow Let’s Encrypt to perform the necessary validation.
+
+For example, if you’re using **UFW** on Ubuntu, run:
+```bash
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw reload
+```
+
+If you’re using **firewalld** on CentOS or Red Hat, run:
+```bash
+sudo firewall-cmd --permanent --add-port=80/tcp
+sudo firewall-cmd --permanent --add-port=443/tcp
+sudo firewall-cmd --reload
+```
+
+Once port 80 is open, Let’s Encrypt can send its validation requests, and the certificate issuance process will proceed as expected.
+
+#### 2. **Reattempt Certificate Issuance:**
+
+After ensuring port 80 is open, reattempt the certificate request through your tool or web server (like Certbot, ACME clients, etc.). This should allow Let’s Encrypt to complete the validation and issue the SSL certificate.
+
+#### 3. **Verify SSL Status:**
+
+To ensure the certificate has been issued, you can check your site using an SSL checker tool or by simply navigating to your domain in a browser with HTTPS.
+
+---
+
+### What If Port 80 Can’t Be Opened?
+
+If opening **port 80** is not an option (for security reasons or because you’re using a non-standard setup), you can configure Let’s Encrypt to use **DNS-01 validation** instead of HTTP-01.
+
+With DNS-01 validation, Let’s Encrypt verifies domain ownership by asking you to add a DNS record to your domain’s DNS settings. This method bypasses the need for **port 80** but requires access to your DNS settings.
+
+---
+
+### Debugging SSL Handshake Issues
+
+If you’ve opened port 80 but still encounter SSL handshake errors, here are a few steps to troubleshoot:
+
+- **Check DNS Settings:** Ensure that your domain’s DNS records are correctly pointed to your server’s IP address.
+- **Inspect Let’s Encrypt Logs:** Logs from your Let’s Encrypt client (like Certbot) can provide more details about the validation failure.
+- **Check Server Firewall:** If you use any other security software, such as Cloudflare or a Web Application Firewall (WAF), ensure they aren’t blocking traffic on port 80.
+- **Check SSL Configuration:** Make sure your server or web application has been correctly configured to use the SSL certificate.
+
+---
+
+### Final Thoughts
+
+Errors like **"This site can’t provide a secure connection"** or **"SSL handshake failed"** often arise from Let’s Encrypt being unable to validate your domain, which is typically due to **port 80** being blocked or closed.
+
+To fix this, ensure **port 80** is open on your firewall so Let’s Encrypt can complete the validation process. If you can’t open port 80, consider switching to **DNS-01 validation** as an alternative method.
+
+For more information on why Let’s Encrypt requires **port 80** to be open, check out their official documentation [here](https://letsencrypt.org/docs/allow-port-80/).
+
+Once the certificate is successfully issued, your website will be able to provide a secure connection via HTTPS.
