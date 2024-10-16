@@ -1,0 +1,102 @@
+---
+isPublished: true  
+title: "The State of Markdown Editors for React: My Search For API-Fiddle"  
+date: 2024-10-16 
+excerpt: "I found myself on the hunt for a solid markdown editor. But it wasn't there."  
+keywords:
+  - Markdown
+  - React
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+As I was building [API-Fiddle.com](https://api-fiddle.com), I found myself on the hunt for a solid markdown editor. 
+I was specifically looking for a text editor replacement—something simple yet powerful enough to handle markdown 
+without requiring an entire document editor like Notion or Obsidian.
+
+I didn’t think it would be hard to find the right tool, but to my surprise, it wasn’t as straightforward as I had 
+hoped. The editors I came across could mostly be divided into two categories:
+
+1. **Full document editing** (think Notion, Obsidian, or Google Docs with markdown support).
+2. **Textarea replacements** that bring simple markdown editing into your React projects.
+
+In this post, I’ll share my experiences and the tools I evaluated. While I was primarily looking for a 
+simple textarea replacement, the limited options out there led me to this breakdown. If you're in a similar 
+position, this might save you some time.
+
+### Full Document Editing
+
+If you’re looking for a complete document editing experience with markdown (similar to Notion or Obsidian), these 
+are two noteworthy contenders:
+
+- **[Vrite](https://github.com/vriteio/vrite)**: A powerful tool that aims to provide a full-featured writing 
+experience for markdown-based workflows.
+- **[Lexical](https://github.com/facebook/lexical)**: A rich text editor built by Facebook, offering plenty of 
+customization options and solid markdown support.
+
+Although both tools are great for heavy-lifting document editing, I was more focused on finding a simpler 
+textarea replacement for my needs.
+
+### Textarea Replacements: Markdown Editors I Tried
+
+## React MD Editor
+
+[React-MD-Editor](https://uiwjs.github.io/react-md-editor/)
+
+This was one of the first editors I tried. Here are my takeaways:
+
+- **Ease of use**: It’s fast to get started with React-MD-Editor. It does a good job rendering text in raw 
+markdown.
+- **Customization limitations**: It doesn’t provide a rich editing experience beyond basic markdown support. 
+Customizing it is difficult—you’ll have to wrestle with overwriting hardcoded styles using deeply specific CSS selectors.
+- **Performance hit**: React-MD-Editor increases your bundle size by around **2MB** (before compression), 
+which is significant for such a simple editor.
+- **Conclusion**: While it's a functional markdown editor, it lacks the flexibility and ease of customization needed 
+for a professional application like API-Fiddle.
+
+## MDX Editor
+
+[MDX Editor](https://mdxeditor.dev/)
+
+Next, I explored **MDX Editor**, which took a different approach with its hybrid model:
+
+- **Rich editing + source mode**: It lets you toggle between a rich editor and a raw markdown source mode. 
+This sounded ideal at first, but it has quirks.
+- **Escaping issues**: Typing basic markdown like `*word*` for bold works, but entering `[link](url)` 
+escapes the markdown tokens rather than rendering them as expected. This also complicates code pasting.
+- **Customization pain points**: Despite its rich feature set, modifying the editor is tough, especially 
+for customizing key parts like the link dialog.
+- **Bundle size**: Again, this editor adds multiple MBs to your bundle.
+- **Conclusion**: It's a decent hybrid, but the escaping and customization challenges held me back from 
+fully adopting it.
+
+## Tiny Markdown Editor and React-SimpleMDE-Editor
+
+[Tiny-Markdown-Editor](https://github.com/jefago/tiny-markdown-editor)
+[React-SimpleMDE-Editor](https://react-simplemde-edtior.netlify.app/)
+
+Both of these tools fell into a similar trap:
+
+- **Customization struggles**: Just like React-MD-Editor, customizing these tools required a fight with CSS specificity.
+- **Syntax highlighting**: It has built-in support for things like code blocks, but again, customizing the look and feel is far from simple.
+- **Maintenance issues**: The project feels somewhat abandoned, and I wasn't confident about its long-term reliability.
+
+## What’s Next?
+
+After spending a lot of time evaluating these tools, I was left with no perfect solution. None of the existing markdown 
+editors gave me a production-ready, professional experience in React.
+
+That’s why I’m now leaning towards building my own markdown editor using **Lexical** from Facebook. While Lexical 
+is not a markdown-first solution, it offers flexibility and is actively maintained by a team that ensures long-term 
+stability—something that’s hard to come by in the markdown editor space.
+
+If you’re in the market for a markdown editor and want more than just a quick hack, investing time in customizing 
+Lexical could be worth it. It requires effort, but it’s likely the best option given the current state of markdown editors for React.
+
+---
+
+If you’ve found a markdown editor that worked well for you, let me know! I’m always on the lookout for better tools, 
+and maybe we can help each other out in this search.
