@@ -1,0 +1,97 @@
+---
+isPublished: true  
+title: "How Shadcn Cut Through the Noise and Became React’s Default Component Library"  
+date: 2024-10-22 
+excerpt: "The history and implications of Shadcn"  
+keywords:
+  - React
+  - Shadcn
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+When the maker of [Shadcn](https://ui.shadcn.com/) launched the new `<Sidebar />` component this week, the post went viral. It received more than 11k 
+likes and was seen by roughly one million people on X alone, cementing Shadcn’s role as the default component library for 
+new React projects.
+
+<Tweet id="1847359896557408461" />
+
+### How popular is Shadcn exactly?
+
+It is hard to assess the popularity of libraries. A common way to do so is by looking at GitHub stars, followed by the 
+realization that GitHub stars are a poor metric for library success. But let’s look at them anyway.
+
+<Img src="/post-media/0024-shadcn-stars.png" />
+
+Today, Shadcn is the third most starred component library in the React ecosystem, behind [Material UI](https://mui.com/material-ui/) and [Ant Design](https://ant.design/). 
+However, Shadcn seems to be at the height of its popularity, growing fast, while its competitors seem dated and 
+boring.
+
+## But is it even a component library?
+
+If you open the [Shadcn docs](https://ui.shadcn.com/docs), you’ll be greeted with the following quote:
+
+> This is NOT a component library. It's a collection of reusable components that you can copy and paste into your apps.
+
+Shadcn is components without a library.
+
+We can think of it as a build tool that injects components, libraries, and utilities 
+into your code without being a dependency itself.
+
+The components it injects are often unstyled [Radix UI](https://www.radix-ui.com/primitives) primitives with a thin 
+coating of Tailwind CSS. For other components, Shadcn will inject libraries like [Sonner](https://sonner.emilkowal.ski/) 
+or [react-resizable-panels](https://github.com/bvaughn/react-resizable-panels) into your repository.
+
+For the sake of comparison, I will treat Shadcn like a component library in this article, even though this 
+is a sure way to get people mad.
+
+## The history of Shadcn
+
+There are three notable milestones in the development of Shadcn.
+
+The **first** is its launch in January 2023. At that time, Shadcn was nothing more than a repository containing components 
+styled with Tailwind CSS. To use Shadcn, developers had to visit the repository, copy the component code, create a new file, 
+and paste the code.
+
+This leads to the **second** milestone: The addition of the CLI. In June 2023, the CLI was added. Since then, 
+developers have been able to use today's familiar interface to add components to their code:
+
+`npx shadcn@latest add accordion`
+
+The **third** and final milestone in Shadcn’s life was Vercel’s acquisition of Shadcn in July 2023. Vercel subsequently 
+integrated it deeply with their platform, using it for the Vercel dashboard, landing page, and most notably [V0](https://v0.dev/).
+
+<Tweet id="1795530449953165467" />
+
+V0 by Vercel is a ChatGPT-like interface for building user interfaces with Shadcn and Tailwind CSS - I highly recommend giving it a try.
+By only using Shadcn, V0 generates consistant designs that are sure to get us all unemployed by 2025. But back to Shadcn!
+
+## How Shadcn cut through the noise
+
+Most component libraries are iterations of the same thing. Since they are hard to customize, they follow a natural saturation curve. 
+As soon as they are widely used, they stop being cool. Early adopters move on.
+
+Shadcn approached the same problem as traditional component libraries from a different angle. 
+While building a library is the standard approach, the creator of Shadcn recognized that hiding code deep in `node_module`s is suboptimal. 
+
+He chose to design Shadcn as a mixture of a utility library, styled component library, and headless component library, arriving at a system 
+that is highly customizable while offering good defaults out of the box. He freed components from their `node_module` prison so we could
+interact with them.
+
+Lastly, Shadcn integrates deeply with AI capabilities, offering AI code generation abilities beyond what other component libraries offer with V0.
+
+## Does this go beyond component libraries?
+
+The popularity of Shadcn might have importance beyond the notoriously noisy JavaScript ecosystem. Very broadly, Shadcn poses the question:
+
+> When is abstracting code into a library a bad thing?
+
+From here, it’s easy to envision a world in which libraries like [lodash](https://lodash.com/docs/4.17.15) stop being libraries and start to become 
+utilities that should be placed into our codebases for customization, instead of hiding their code in dependency modules. 
+And why stop at utility libraries?
+
+It might be worth revisiting any library that balances customizability and utility (making something 
+complex easily accessible).
