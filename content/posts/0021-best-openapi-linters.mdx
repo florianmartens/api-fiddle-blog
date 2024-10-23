@@ -13,34 +13,42 @@ authors:
     twitter: https://twitter.com/florianmartens9 
 ---
 
-When designing and maintaining APIs using the OpenAPI specification, ensuring consistency, readability, and adherence to best practices is critical. This is where OpenAPI linters come in handy. These tools help automate the process of catching common errors, improving API design, and keeping the spec aligned with industry standards.
+Designing OpenAPI specifications is hard. The format was originally designed to be machine readable but has become the standard to discussing APIs in
+human-to-human interactions as well. This often leads to humans having to edit and maintain OpenAPI files by hand.
 
-In this post, we’ll explore **Vacuum**, **RateMyOpenAPI**, and two other popular OpenAPI linters, breaking down their features and why they might be a good fit for your API workflow.
+OpenAPI files are no different from other code artifacts. We generally want to focus on structure, cusistency, and readability.
+
+To assess the quality and validity of our OpenAPI contracts we can use linters. In this post, I'm exploring the most popular options for OpenAPI 
+based linters: **Vaccum**, **RateMyOpenAPI**, and **Spectral**.
 
 ---
 
 ### 1. **Vacuum**
 
-[Vacuum](https://github.com/daveshanley/vacuum) is a modern, powerful OpenAPI linter that focuses on catching both syntactical errors and design inconsistencies. It integrates easily into CI/CD pipelines, making it an excellent choice for continuous quality checks. Here’s why Vacuum stands out:
+[Link to Vacuum](https://github.com/daveshanley/vacuum)
 
-#### Key Features:
-- **Strict Ruleset**: Vacuum enforces a strict set of rules that ensures APIs are not only syntactically correct but also adhere to industry best practices.
-- **Customizable Rules**: Developers can tailor the linter to fit their organization’s specific API guidelines.
-- **Fast Feedback**: Vacuum is optimized for speed, providing feedback quickly, which is especially useful when running in CI environments.
-- **Error Grouping**: Vacuum groups similar issues, allowing you to tackle them systematically rather than sifting through redundant warnings.
+Vacuum describes itself as:
 
-#### Why Use Vacuum?
-If you’re looking for a robust OpenAPI linter that is quick and easy to integrate into your workflow, Vacuum is a top choice. It’s ideal for teams that value fast feedback and the ability to enforce strong design consistency across their APIs.
+> The world's fastest OpenAPI & Swagger linter.
+
+It's a battle tested linter written in Go that focuses on speed and easy integration into existing CI/CD pipeline.
+
+#### Pros:
+- **Customize Rules**: Define and configure rules to fit the guidelines of your organization.
+- **Quick**: Vacuum blazingly fast which makes it great in CI environments.
+- **Group errors**: Vacuum groups errors allowing for easy display and message consumption.
 
 ---
 
 ### 2. **RateMyOpenAPI**
 
-[RateMyOpenAPI](https://ratemyopenapi.com/) is another popular tool in the OpenAPI linter ecosystem. It comes as a CLI, web interface, and library. RateMyOpenAPI provides an good balance between catching errors and giving actionable feedback, making it a great tool for teams looking to improve their API design progressively.
+[Link to RateMyOpenAPI](https://ratemyopenapi.com/) 
 
-#### Key Features:
-- **Grading System**: One of the unique aspects of RateMyOpenAPI is its grading system, which provides a score for your API design. This makes it easy to understand how your API stands overall.
-- **Actionable Feedback**: Instead of just flagging issues, RateMyOpenAPI provides actionable suggestions to improve your OpenAPI definition.
+RateMyOpenAPI is a tool developed by Zuplo, a fairly new API Gateway based on OpenAPI. RateMyOpenAPI is published as a library, CLI, and Web Interface.
+The latter makes it extremly easy to get started. Simply [visit the website](https://ratemyopenapi.com/), paste your OpenAPI file and see the result.
+
+#### Pros:
+- **Receive a grade**: RateMyOpenAPI assigns a grade to your OpenAPI contract. This makes it easy to understand the overall quality and validity of your file.
 - **Focus on Consumer-Friendly APIs**: The linter emphasizes the creation of APIs that are easy to understand and use by external developers, making it great for public-facing APIs.
 - **Free for Open Source Projects**: RateMyOpenAPI offers a free tier for open-source projects, encouraging high-quality APIs in the community.
 
