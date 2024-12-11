@@ -1,0 +1,134 @@
+---
+isPublished: true  
+title: "Can AI-based API documentation replace traditional methods?"  
+date: 2024-10-22 
+excerpt: "Can we design and document our APIs with AI?"  
+keywords:
+  - OpenAPI
+  - AI
+authors:
+  - name: Florian
+    description: Founder
+    avatar: /authors/florian.jpg
+    twitter: https://twitter.com/florianmartens9 
+---
+
+In the world of APIs, there’s frequent mention of the terms 
+[_API-first_](https://www.postman.com/api-first/#:~:text=In%20API%2Dfirst%2C%20developers%20start,with%20internal%20and%20external%20applications.) 
+and [_code-first_](https://swagger.io/blog/code-first-vs-design-first-api/).
+
+The terms describe two paradigms for describing and designing APIs.
+
+In the _API-first_ approach, we change our API contracts - such as OpenAPI files - before we write code.
+
+_API-first_ treats contracts and code as separate.
+
+First, we define the changes to our APIs, then we implement these changes according to the new contract.
+
+For this to work, you must develop the discipline to manually keep your contract in sync with your implementation. 
+Needless to say: This is hard. To add insult to injury, you’re in for a painful debugging session should the two get out of sync.
+
+The second API design paradigm is _code-first_. In a _code-first_ approach, we place special annotations 
+inside our code and generate API contracts (OpenAPI, AsyncAPI, etc.) from them.
+
+Many people like the _code-first_ approach since it (mostly) guarantees that the generated contract structurally 
+matches the implementation. Keeping API contracts in sync with code feels natural.
+
+However, the _code-first_ approach often produces many thousands of lines of annotation code (For example [Asana’s 
+OpenAPI file contains 54k lines of code](https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml)). 
+Additionally, the missing separation between code and contract leads to the propagation of coding bugs into our contracts.
+A nightmare for security teams when relying on API contracts for security!
+
+Things usually get wobbly once our codebases scale and we start to manage markdown, links, reusable components, references, and
+images in our code annotations. While _code-first_ makes it easy to start, it doesn't scale.
+
+A common argument for _code-first_ is that code and annotations belong together and should therefore 
+be colocated. In practice, however, this hardly holds up once reusable OpenAPI components are used.
+
+Instead of tightly related code, we manage a codebase within a codebase.
+
+It is hard to choose between _code-first_ and _API-first_ because documenting things is hard. Typically, we’re stuck 
+choosing the lesser evil.
+
+I’ve spent the last months building around this problem, repeating the lore of companies like Kong and Postman.
+
+I proclaimed that _API-first_ is a solution to this problem - but doubts began to form. Even when working 
+on my projects, the processes felt off.
+
+In this blog, I want to explore if leveraging AI systems can lead to an improved process. For this, 
+I’m suggesting that a new AI-based tool with the name “AI Fiddle” exists.
+
+
+### Building an AI-based system
+
+In an _AI-based_ system, you start writing code. However, you do not add annotations for contract generation.
+
+You are concerned with your code not with your contract. Upon completion, you submit a pull request.
+
+Now AI Fiddle goes to work.
+
+AI Fiddle analyses your pull request and automatically detects if the implementation code changed the 
+public-facing API of the program. If there is a change in the public API, the system will suggest an 
+update to the OpenAPI file by ingesting the available information: PR message, existing OpenAPI file, code comments, etc.
+
+Subsequently, AI Fiddle will issue a separate PR that contains the changes to the OpenAPI documentation 
+that can be reviewed and edited by a human. This process is repeated in case additional commits are added to the PR.
+
+How does an “AI-based” system address the shortcomings of the _code-first_ and _API-first_ approaches?
+
+### Separation between documentation and code
+
+An _AI-based_ system removes the need for thousands of lines of annotation code, markdown, images, and links 
+in your application code while keeping implementation and documentation in sync.
+
+Instead of relying on annotations, the entire documentation is stored in the contract and managed 
+by AI Fiddle. The contract remains the source of truth.
+
+### Security considerations
+
+One of the major shortcomings of the _code-first_ approach is that errors made in the implementation 
+code propagate into the API contract unmitigated. This nullifies the usefulness of API contracts for 
+preventing excess data exposure.
+
+An AI-based workflow can combine the strengths of _code-first_ and _API-first_. Using a separate PR for the 
+contract update forces a review of public-facing changes to the API.
+
+By analyzing the entire codebase, the system can flag potentially sensitive data being exposed and alert authors.
+
+### Instantly document undocumented APIs
+
+While improving the documentation for already documented APIs is important, we need to consider that many APIs are undocumented.
+
+An AI-based approach has the added benefit of being able to instantly generate 
+documentation for any codebase in any language written in any framework.
+
+The system's accuracy is determined by the information contained in the codebase e.g. statically 
+typed languages vs. dynamically typed languages. 
+
+The AI-generated documentation can be used as a starting point for human refinement.
+
+### Speed of writing documentation
+
+Few developers like the process of writing documentation. By leveraging AI the author would not start 
+off with a blank sheet but would have an AI-generated draft for further refinement.
+
+### Contract organization
+
+A common shortcoming of the _code-first_ approach is that API contracts are generated in the same 
+repository as the implementation code. This makes them hard to consume for code that lives in 
+different repositories.
+
+When bringing this up, strategies like git submodules, publishing flows, and monorepos are often mentioned.
+All of these strategies come with drawbacks. Especially once we manage files dispersed over different repositories.
+
+Since AI Fiddle generates separate PRs for each documentation change we can install a central 
+repository that stores all API contracts for our entire company making it easier for clients to 
+access the newest API definition.
+
+### Disadvantages: Mistakes introduced by AI
+
+Due to their heuristic nature, AI systems can make mistakes. While reducing the chance of 
+propagating errors from code implementation into API contracts, we’re now exposed to the risk 
+of propagating AI-induced errors into our contracts.
+
+
